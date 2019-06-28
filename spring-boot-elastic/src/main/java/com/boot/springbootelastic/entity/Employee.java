@@ -20,6 +20,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 @ToString
 public class Employee {
 
+  private Integer id;
   private String firstName;
   private String lastName;
   private Integer age;

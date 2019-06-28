@@ -1,7 +1,7 @@
 package com.boot.springbootelastic.dao;
 
 import com.boot.springbootelastic.entity.Employee;
-import org.springframework.data.domain.Page;
+import java.util.List;
 import org.springframework.data.elasticsearch.repository.ElasticsearchRepository;
 
 /**
@@ -10,11 +10,11 @@ import org.springframework.data.elasticsearch.repository.ElasticsearchRepository
  * @author: zhaoxiaoping
  * @date: 2019/06/27
  **/
-public interface EmployeeRepository extends ElasticsearchRepository<Employee, String> {
+public interface EmployeeRepository extends ElasticsearchRepository<Employee, Integer> {
 
-  Page<Employee> findByLastName(String lastName);
+  List<Employee> findByLastName(String lastName);
 
-  Page<Employee> findByFirstName(String firstName);
+  List<Employee> findByFirstName(String firstName);
 
-  Page<Employee> findByAbout(String about);
+  List<Employee> findByAbout(String about);
 }
