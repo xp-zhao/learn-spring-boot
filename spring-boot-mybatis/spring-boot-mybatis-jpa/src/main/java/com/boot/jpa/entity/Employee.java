@@ -33,6 +33,7 @@ public class Employee implements Serializable {
     private Integer id;
     @Column(name = "last_name")
     private String lastName;
+    @Column(columnDefinition = "varchar(100) COMMENT '邮箱地址'")
     private String email;
     private Integer gender;
     private Integer age;

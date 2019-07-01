@@ -42,7 +42,7 @@ public class SpringBootMybatisJpaApplicationTests {
   @Test
   public void findOne(){
     Employee employee = new Employee();
-    employee.setLastName("cj1");
+    employee.setLastName("cj");
     Example<Employee> example = Example.of(employee);
     Optional<Employee> result = repository.findOne(example);
     if(result.isPresent()){
@@ -57,4 +57,8 @@ public class SpringBootMybatisJpaApplicationTests {
     System.out.println(repository.findByLastName("cj").toString());
   }
 
+  @Test
+  public void update(){
+    System.out.println(repository.update("updateTest", 1));
+  }
 }
