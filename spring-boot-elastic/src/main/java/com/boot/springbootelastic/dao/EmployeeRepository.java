@@ -14,7 +14,11 @@ public interface EmployeeRepository extends ElasticsearchRepository<Employee, In
 
   List<Employee> findByLastName(String lastName);
 
+  List<Employee> findByLastNameLike(String lastName);
+
   List<Employee> findByFirstName(String firstName);
 
   List<Employee> findByAbout(String about);
+
+  List<Employee> findByLastNameEndingWith(String lastName);
 }

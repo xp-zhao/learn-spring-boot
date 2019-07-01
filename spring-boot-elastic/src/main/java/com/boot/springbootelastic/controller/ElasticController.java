@@ -5,9 +5,7 @@ import com.boot.springbootelastic.entity.Employee;
 import com.boot.springbootelastic.service.EmployeeService;
 import java.util.Arrays;
 import java.util.List;
-import org.apache.lucene.util.QueryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.elasticsearch.core.query.SearchQuery;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
