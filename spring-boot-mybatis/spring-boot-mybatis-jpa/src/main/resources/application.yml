@@ -3,8 +3,9 @@ spring:
     url: jdbc:mysql://47.98.49.140:3306/mp
     username: root
     password: 123456
-    driver-class-name: com.mysql.jdbc.Driver
+    driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect # 指定建表引擎
     show-sql: true

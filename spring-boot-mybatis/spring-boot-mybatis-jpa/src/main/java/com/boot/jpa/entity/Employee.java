@@ -1,5 +1,7 @@
 package com.boot.jpa.entity;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -27,6 +29,7 @@ public class Employee implements Serializable {
 
     private static final long serialVersionUID = -8788743247890574219L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(name = "last_name")
     private String lastName;
