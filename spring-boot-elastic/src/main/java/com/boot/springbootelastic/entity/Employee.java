@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
+import org.springframework.data.elasticsearch.annotations.Field;
 
 /**
  * Employee.java es 映射对象
@@ -20,7 +22,9 @@ import org.springframework.data.elasticsearch.annotations.Document;
 @ToString
 public class Employee {
 
+  @Id
   private Integer id;
+  @Field
   private String firstName;
   private String lastName;
   private Integer age;
