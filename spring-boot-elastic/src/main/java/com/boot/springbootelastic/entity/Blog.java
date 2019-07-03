@@ -1,6 +1,5 @@
 package com.boot.springbootelastic.entity;
 
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -9,23 +8,20 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 /**
- * Employee.java es 映射对象
+ * Blog.java 博客实体类
  *
  * @author: zhaoxiaoping
- * @date: 2019/06/27
+ * @date: 2019/07/03
  **/
-@Document(indexName = "megacorp", type = "employee")
+@Document(indexName = "website", type = "blog")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Employee {
-
+public class Blog {
   @Id
-  private Integer id;
-  private String firstName;
-  private String lastName;
-  private Integer age;
-  private String about;
-  private List<String> interests;
+  private String id;
+  private String title;
+  private String text;
+  private String date;
 }
