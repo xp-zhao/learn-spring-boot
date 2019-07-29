@@ -95,4 +95,14 @@ public class TreeController {
     }
     return names;
   }
+
+  @RequestMapping("/add")
+  public String add(){
+    Session session = driver.session();
+    Transaction tx = session.beginTransaction();
+    StatementResult result = tx
+        .run("create (n:ZSLY:BSDB_SX_KBZSD:RJB_SX_KBZSD{section:'小学',name:'新建一级知识点'}) return id(n)");
+    result.next().get("id(n)").asInt();
+    return "";
+  }
 }
