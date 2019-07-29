@@ -177,4 +177,12 @@ public class TreeController {
 //    }
     return null;
   }
+
+  @RequestMapping("/remove")
+  public String remote(String nodeId){
+    Session session = driver.session();
+    Transaction tx = session.beginTransaction();
+    tx.run("match (n{node_id:'" + nodeId + "'}) delete n");
+    return null;
+  }
 }
