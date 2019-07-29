@@ -1,5 +1,6 @@
 package com.boot.mybatis;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.boot.mybatis.entity.Employee;
 import com.boot.mybatis.entity.Order;
 import com.boot.mybatis.mapper.EmployeeMapper;
@@ -34,5 +35,24 @@ public class SpringBootMybatisPlusApplicationTests {
   public void saveOrder(){
     Order order = new Order("1234", "xp", "sdf", 12, 12);
     System.out.println(orderMapper.insert(order));
+  }
+
+  @Test
+  public void saveEmployee(){
+    Employee employee = new Employee();
+    employee.setGender(11);
+    employee.setAge(22);
+    employee.setEmail("sadf");
+    employee.setLastName("xp");
+    System.out.println(mapper.insert(employee));
+  }
+
+  @Test
+  public void updateTest(){
+    Employee employee = new Employee();
+//    employee.setId(1);
+    employee.setGender(36);
+//    System.out.println(mapper.updateById(employee));
+    System.out.println(mapper.update(employee, new QueryWrapper<Employee>().eq("id", 2)));
   }
 }
