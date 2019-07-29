@@ -2,6 +2,7 @@ package com.boot.neo4j;
 
 import com.boot.neo4j.entity.TreeNode;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.neo4j.driver.v1.Driver;
@@ -63,7 +64,7 @@ public class TreeController {
   }
 
   @RequestMapping("/getChild/{nodeId}")
-  public List<TreeNode> child(@PathVariable(value = "nodeId") String nodeId){
+  public List<TreeNode> child(@PathVariable(value = "nodeId") String nodeId) {
     Session session = driver.session();
     Transaction tx = session.beginTransaction();
     StatementResult chlid = tx
@@ -81,11 +82,13 @@ public class TreeController {
   }
 
   @RequestMapping("/getName")
-  public List<String> getNameList(String name){
+  public List<String> getNameList(String name) {
     Session session = driver.session();
     Transaction tx = session.beginTransaction();
     StatementResult chlid = tx
-        .run("match (n) where n.section = '小学' and n.node_id =~ '.*_SX_.*' and  n.name =~ '.*" + name + ".*' return n limit 5");
+        .run(
+            "match (n) where n.section = '小学' and n.node_id =~ '.*_SX_.*' and  n.name =~ '.*" + name
+                + ".*' return n limit 5");
     List<String> names = new ArrayList<>();
     while (chlid.hasNext()) {
       Node node2 = chlid.next().get("n").asNode();
@@ -97,12 +100,81 @@ public class TreeController {
   }
 
   @RequestMapping("/add")
-  public String add(){
+  public String add() {
     Session session = driver.session();
     Transaction tx = session.beginTransaction();
     StatementResult result = tx
-        .run("create (n:ZSLY:BSDB_SX_KBZSD:RJB_SX_KBZSD{section:'小学',name:'新建一级知识点'}) return id(n)");
+        .run(
+            "create (n:ZSLY:BSDB_SX_KBZSD:RJB_SX_KBZSD{section:'小学',name:'新建一级知识点'}) return id(n)");
     result.next().get("id(n)").asInt();
     return "";
+  }
+
+  @RequestMapping("/move")
+  public String move(String nodeId, String oprType) {
+    // 先获取当前节点的父节点
+    Session session = driver.session();
+    Transaction tx = session.beginTransaction();
+    StatementResult result = tx
+        .run("match (n{node_id:'RJB_SX_KBZSD_0'}) <- [:CONTAIN] - (m:RJB_SX_KBZSD) return m");
+    // 保存跟当前节点处于同级的节点
+    List<Map<String, Object>> nodes = new ArrayList<>();
+    if(result.hasNext()){
+      // 父节点不为空，不是一级知识点
+      Node parent = result.next().get("m").asNode();
+      String parentNodeId = (String) parent.asMap().get("node_id");
+      StatementResult brother = tx.run("match (n{node_id:'"+parentNodeId+"'}) - [:CONTAIN] -> (m:RJB_SX_KBZSD) return m");
+      while (brother.hasNext()){
+        Map<String, Object> map = brother.next().get("m").asMap();
+        nodes.add(map);
+      }
+    }else{
+      // 当前节点为一级知识点
+      // 获取 小学-数学 的所有一级知识点
+      StatementResult brother = tx
+          .run("match (n:ZSLY) where n.section = '小学' and n.node_id =~ '.*_SX_.*' return n");
+      while (brother.hasNext()){
+        Map<String, Object> map = brother.next().get("n").asMap();
+        nodes.add(map);
+      }
+    }
+    /**
+     * 确定当前节点的下标
+     */
+    int index = 0;
+    for (int i = 0; i < nodes.size(); i++) {
+      if(nodes.get(i).get("node_id").equals(nodeId)){
+        index = i;
+      }
+    }
+    Map<String, String> map = new HashMap<>();
+    // 上移
+    // 当前节点的位置
+    String c1 = (String) nodes.get(index).get("seq");
+    if(oprType.equals(1)){
+      // 上一个节点的位置
+      String c2 = (String) nodes.get(index - 1).get("seq");
+      // 上个节点的 id
+      String cn = (String) nodes.get(index - 1).get("node_id");
+      map.put(nodeId, c2);
+      map.put(cn, c1);
+    }else{
+      // 下移
+      // 下一个节点的位置
+      String c2 = (String) nodes.get(index + 1).get("seq");
+      // 下一个节点的 id
+      String cn = (String) nodes.get(index + 1).get("node_id");
+      map.put(nodeId, c2);
+      map.put(cn, c1);
+    }
+//    synchronized (this){
+      map.forEach((k, v) -> {
+        StatementResult state = tx.run("match (n{node_id:'" + k + "'}) set n.seq = '" + v + "' return n");
+        state.next().get("n").asMap().forEach((k1, v1) -> {
+          System.out.println(k1 + ": " + v1);
+        });
+      });
+//    }
+    return null;
   }
 }
