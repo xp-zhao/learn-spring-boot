@@ -5,12 +5,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import org.neo4j.driver.v1.Driver;
 import org.neo4j.driver.v1.Session;
 import org.neo4j.driver.v1.StatementResult;
 import org.neo4j.driver.v1.Transaction;
 import org.neo4j.driver.v1.types.Node;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @author: zhaoxiaoping
  * @date: 2019/07/25
  **/
+@Validated
 @RestController
 public class TreeController {
 
@@ -196,5 +201,31 @@ public class TreeController {
     Session session = driver.session();
     StatementResult result = session.run("match (n{node_id:'" + nodeId + "'}) return n");
     return result.next().get("n").asMap();
+  }
+
+  @RequestMapping("/getRestrict")
+  public List<Map<String, Object>> getRestrict(String nodeId) {
+    Session session = driver.session();
+    String label = nodeId.substring(0, nodeId.lastIndexOf("_"));
+    StatementResult result = session
+        .run("match (n{node_id:'" + nodeId + "'}) <- [:RESTRICT] - (m:" + label + ")  return m");
+    List<Map<String, Object>> list = new ArrayList<>();
+    while (result.hasNext()) {
+      list.add(result.next().get("m").asMap());
+    }
+    return list;
+  }
+
+  @RequestMapping("/getConfuse")
+  public List<Map<String, Object>> getConfuse(@NotBlank(message = "nodeId 不能为空") String nodeId) {
+    Session session = driver.session();
+    String label = nodeId.substring(0, nodeId.lastIndexOf("_"));
+    StatementResult result = session.run(
+        "match (n{node_id:'" + nodeId + "'}) <- [:CONFUSE] - (m:" + label + ")  return m");
+    List<Map<String, Object>> list = new ArrayList<>();
+    while (result.hasNext()) {
+      list.add(result.next().get("m").asMap());
+    }
+    return list;
   }
 }
