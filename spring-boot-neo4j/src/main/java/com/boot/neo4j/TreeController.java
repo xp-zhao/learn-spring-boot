@@ -82,21 +82,20 @@ public class TreeController {
   }
 
   @RequestMapping("/getName")
-  public List<String> getNameList(String name) {
+  public List<Map<String, Object>> getNameList(String name) {
     Session session = driver.session();
     Transaction tx = session.beginTransaction();
     StatementResult chlid = tx
         .run(
             "match (n) where n.section = '小学' and n.node_id =~ '.*_SX_.*' and  n.name =~ '.*" + name
                 + ".*' return n limit 5");
-    List<String> names = new ArrayList<>();
+    List<Map<String, Object>> nodes = new ArrayList<>();
     while (chlid.hasNext()) {
       Node node2 = chlid.next().get("n").asNode();
       Map<String, Object> map1 = node2.asMap();
-      String name1 = (String) map1.get("name");
-      names.add(name1);
+      nodes.add(map1);
     }
-    return names;
+    return nodes;
   }
 
   @RequestMapping("/add")
@@ -119,21 +118,22 @@ public class TreeController {
         .run("match (n{node_id:'RJB_SX_KBZSD_0'}) <- [:CONTAIN] - (m:RJB_SX_KBZSD) return m");
     // 保存跟当前节点处于同级的节点
     List<Map<String, Object>> nodes = new ArrayList<>();
-    if(result.hasNext()){
+    if (result.hasNext()) {
       // 父节点不为空，不是一级知识点
       Node parent = result.next().get("m").asNode();
       String parentNodeId = (String) parent.asMap().get("node_id");
-      StatementResult brother = tx.run("match (n{node_id:'"+parentNodeId+"'}) - [:CONTAIN] -> (m:RJB_SX_KBZSD) return m");
-      while (brother.hasNext()){
+      StatementResult brother = tx.run(
+          "match (n{node_id:'" + parentNodeId + "'}) - [:CONTAIN] -> (m:RJB_SX_KBZSD) return m");
+      while (brother.hasNext()) {
         Map<String, Object> map = brother.next().get("m").asMap();
         nodes.add(map);
       }
-    }else{
+    } else {
       // 当前节点为一级知识点
       // 获取 小学-数学 的所有一级知识点
       StatementResult brother = tx
           .run("match (n:ZSLY) where n.section = '小学' and n.node_id =~ '.*_SX_.*' return n");
-      while (brother.hasNext()){
+      while (brother.hasNext()) {
         Map<String, Object> map = brother.next().get("n").asMap();
         nodes.add(map);
       }
@@ -143,7 +143,7 @@ public class TreeController {
      */
     int index = 0;
     for (int i = 0; i < nodes.size(); i++) {
-      if(nodes.get(i).get("node_id").equals(nodeId)){
+      if (nodes.get(i).get("node_id").equals(nodeId)) {
         index = i;
       }
     }
@@ -151,14 +151,14 @@ public class TreeController {
     // 上移
     // 当前节点的位置
     String c1 = (String) nodes.get(index).get("seq");
-    if(oprType.equals(1)){
+    if (oprType.equals(1)) {
       // 上一个节点的位置
       String c2 = (String) nodes.get(index - 1).get("seq");
       // 上个节点的 id
       String cn = (String) nodes.get(index - 1).get("node_id");
       map.put(nodeId, c2);
       map.put(cn, c1);
-    }else{
+    } else {
       // 下移
       // 下一个节点的位置
       String c2 = (String) nodes.get(index + 1).get("seq");
@@ -167,22 +167,34 @@ public class TreeController {
       map.put(nodeId, c2);
       map.put(cn, c1);
     }
-//    synchronized (this){
-      map.forEach((k, v) -> {
-        StatementResult state = tx.run("match (n{node_id:'" + k + "'}) set n.seq = '" + v + "' return n");
+    map.forEach((k, v) -> {
+      try {
+        StatementResult state = tx
+            .run("match (n{node_id:'" + k + "'}) set n.seq = '" + v + "' return n");
         state.next().get("n").asMap().forEach((k1, v1) -> {
           System.out.println(k1 + ": " + v1);
         });
-      });
-//    }
+      } catch (Exception e) {
+        tx.rollbackAsync();
+      }
+    });
+    tx.success();
+    tx.rollbackAsync();
     return null;
   }
 
   @RequestMapping("/remove")
-  public String remote(String nodeId){
+  public String remote(String nodeId) {
     Session session = driver.session();
     Transaction tx = session.beginTransaction();
     tx.run("match (n{node_id:'" + nodeId + "'}) delete n");
     return null;
+  }
+
+  @RequestMapping("/nodeInfo")
+  public Map<String, Object> getNodeInfo(String nodeId) {
+    Session session = driver.session();
+    StatementResult result = session.run("match (n{node_id:'" + nodeId + "'}) return n");
+    return result.next().get("n").asMap();
   }
 }
