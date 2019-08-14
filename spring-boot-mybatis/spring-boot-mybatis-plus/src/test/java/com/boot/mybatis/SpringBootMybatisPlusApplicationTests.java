@@ -5,6 +5,10 @@ import com.boot.mybatis.entity.Employee;
 import com.boot.mybatis.entity.Order;
 import com.boot.mybatis.mapper.EmployeeMapper;
 import com.boot.mybatis.mapper.OrderMapper;
+import com.boot.mybatis.service.OrderService;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +24,8 @@ public class SpringBootMybatisPlusApplicationTests {
   private EmployeeMapper mapper;
   @Autowired
   private OrderMapper orderMapper;
+  @Autowired
+  private OrderService orderService;
 
   @Test
   public void contextLoads() {
@@ -32,9 +38,14 @@ public class SpringBootMybatisPlusApplicationTests {
   }
 
   @Test
-  public void saveOrder(){
-    Order order = new Order("1234", "xp", "sdf", 12, 12);
+  public void saveOrder() throws UnsupportedEncodingException {
+    Order order = new Order("1236", "除数是两位数、商的个位不是0的笔算除法的算理：（1）借助除数是一位数除法的笔算经验理解除的顺序（2）如果被除数的前两位够除，第一次除得的商和余数都表示几个十，所以这个商要写在十位）（3）如果被除数的前两位够除，商是两位数；被除数的前两位不够除，商是一位数", "sdf", 12, 12);
     System.out.println(orderMapper.insert(order));
+//    Order order1 = new Order("1235", "xp", "sdf", 12, 12);
+//    Order order2 = new Order("1236", "xp", "sdf", 12, 12);
+//    Order order3 = new Order("1237", "xp", "sdf", 12, 12);
+//    List list = Arrays.asList(order, order1, order2, order3);
+//    System.out.println(orderService.saveBatch(list));
   }
 
   @Test
