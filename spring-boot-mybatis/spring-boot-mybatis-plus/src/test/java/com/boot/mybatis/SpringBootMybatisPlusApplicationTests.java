@@ -5,6 +5,8 @@ import com.boot.mybatis.entity.Employee;
 import com.boot.mybatis.entity.Order;
 import com.boot.mybatis.mapper.EmployeeMapper;
 import com.boot.mybatis.mapper.OrderMapper;
+import com.boot.mybatis.service.EmployService;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +20,8 @@ public class SpringBootMybatisPlusApplicationTests {
 
   @Autowired
   private EmployeeMapper mapper;
+  @Autowired
+  private EmployService employService;
   @Autowired
   private OrderMapper orderMapper;
 
@@ -33,18 +37,24 @@ public class SpringBootMybatisPlusApplicationTests {
 
   @Test
   public void saveOrder(){
-    Order order = new Order("1234", "xp", "sdf", 12, 12);
-    System.out.println(orderMapper.insert(order));
+    for (int i = 7; i < 10000; i++) {
+      Order order = new Order("123"+i, "xp", "sdf", 12, 12);
+      System.out.println(orderMapper.insert(order));
+    }
   }
 
   @Test
   public void saveEmployee(){
-    Employee employee = new Employee();
-    employee.setGender(11);
-    employee.setAge(22);
-    employee.setEmail("sadf");
-    employee.setLastName("xp");
-    System.out.println(mapper.insert(employee));
+    List<Employee> list = new ArrayList<>(10000);
+    for (int i = 0; i < 10000; i++) {
+      Employee employee = new Employee();
+      employee.setGender(11);
+      employee.setAge(22);
+      employee.setEmail("sadf");
+      employee.setLastName("xp");
+      list.add(employee);
+    }
+    System.out.println(employService.saveBatch(list));
   }
 
   @Test
