@@ -1,6 +1,7 @@
 package com.boot.springbootweb.controller;
 
 import com.boot.springbootweb.entity.User;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Arrays;
 import java.util.List;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +21,8 @@ public class WebController {
   }
 
   @RequestMapping("/getData")
-  public List<User> getData(){
+  @JsonFormat()
+  public List<User> getData() {
     return Arrays.asList(new User("2016-05-02", "xp1", "chengdu"),
         new User("2016-05-02", "xp2", "chengdu"),
         new User("2016-05-02", "xp3", "chengdu"),
