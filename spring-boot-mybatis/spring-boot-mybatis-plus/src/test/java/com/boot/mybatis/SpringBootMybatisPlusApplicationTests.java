@@ -7,8 +7,6 @@ import com.boot.mybatis.mapper.EmployeeMapper;
 import com.boot.mybatis.mapper.OrderMapper;
 import com.boot.mybatis.service.OrderService;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
