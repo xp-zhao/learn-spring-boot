@@ -1,10 +1,12 @@
 package com.boot.mybatis.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.FieldStrategy;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
@@ -19,6 +21,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @TableName("tbl_order")
 public class Order implements Serializable {
 
@@ -28,6 +31,7 @@ public class Order implements Serializable {
   private String orderId;
   private String lastName;
   private String email;
+  @TableField(updateStrategy = FieldStrategy.IGNORED)
   private Integer gender;
   private Integer age;
 }
