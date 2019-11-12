@@ -13,5 +13,19 @@ import com.boot.power.entity.RoleEntity;
  * @since 2019-11-12
  */
 public interface RoleService extends IService<RoleEntity> {
+    /**
+     * 创建新角色
+     *
+     * @param role 角色实体
+     * @return 返回码
+     */
+    Integer addRole(RoleEntity role);
 
+    /**
+     * 更新角色信息
+     *
+     * @param role 角色实体
+     * @return 返回码
+     */
+    Integer updateRole(RoleEntity role);
 }

@@ -3,6 +3,10 @@ package com.boot.power.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.boot.power.common.validater.ValidateGroup;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -23,11 +27,13 @@ public class RoleEntity implements Serializable {
      * 角色 id
      */
     @TableId(value = "id", type = IdType.AUTO)
+    @NotNull(message = "角色 id 不能为空", groups = {ValidateGroup.Update.class, ValidateGroup.Query.class})
     private Integer id;
 
     /**
      * 角色名称
      */
+    @NotBlank(message = "角色名称不能为空", groups = {ValidateGroup.Add.class, ValidateGroup.Update.class})
     private String roleName;
 
     /**
@@ -76,10 +82,10 @@ public class RoleEntity implements Serializable {
     @Override
     public String toString() {
         return "RoleEntity{" +
-        "id=" + id +
-        ", roleName=" + roleName +
-        ", createDate=" + createDate +
-        ", updateDate=" + updateDate +
-        "}";
+                "id=" + id +
+                ", roleName=" + roleName +
+                ", createDate=" + createDate +
+                ", updateDate=" + updateDate +
+                "}";
     }
 }
