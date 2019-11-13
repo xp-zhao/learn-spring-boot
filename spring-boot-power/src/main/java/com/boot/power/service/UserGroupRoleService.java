@@ -2,7 +2,7 @@ package com.boot.power.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.boot.power.entity.UsergroupRoleEntity;
+import com.boot.power.entity.UserGroupRoleEntity;
 
 /**
  * <p>
@@ -12,6 +12,6 @@ import com.boot.power.entity.UsergroupRoleEntity;
  * @author ${author}
  * @since 2019-11-12
  */
-public interface UsergroupRoleService extends IService<UsergroupRoleEntity> {
+public interface UserGroupRoleService extends IService<UserGroupRoleEntity> {
 
 }

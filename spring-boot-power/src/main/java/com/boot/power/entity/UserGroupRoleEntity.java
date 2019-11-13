@@ -8,27 +8,29 @@ import java.time.LocalDateTime;
 
 /**
  * <p>
- * 用户组表
+ * 用户组与角色表
  * </p>
  *
  * @author ${author}
  * @since 2019-11-12
  */
-@TableName("tbl_usergroup")
-public class UsergroupEntity implements Serializable {
+@TableName("tbl_usergroup_role")
+public class UserGroupRoleEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    /**
-     * 用户组 id
-     */
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
     /**
-     * 用户组名称
+     * 用户组 id
      */
-    private String usergroupName;
+    private Integer usergroupId;
+
+    /**
+     * 角色 id
+     */
+    private Integer roleId;
 
     /**
      * 创建时间
@@ -49,12 +51,20 @@ public class UsergroupEntity implements Serializable {
         this.id = id;
     }
 
-    public String getUsergroupName() {
-        return usergroupName;
+    public Integer getUsergroupId() {
+        return usergroupId;
     }
 
-    public void setUsergroupName(String usergroupName) {
-        this.usergroupName = usergroupName;
+    public void setUsergroupId(Integer usergroupId) {
+        this.usergroupId = usergroupId;
+    }
+
+    public Integer getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Integer roleId) {
+        this.roleId = roleId;
     }
 
     public LocalDateTime getCreateDate() {
@@ -75,9 +85,10 @@ public class UsergroupEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "UsergroupEntity{" +
+        return "UserGroupRoleEntity{" +
         "id=" + id +
-        ", usergroupName=" + usergroupName +
+        ", usergroupId=" + usergroupId +
+        ", roleId=" + roleId +
         ", createDate=" + createDate +
         ", updateDate=" + updateDate +
         "}";

@@ -2,7 +2,7 @@ package com.boot.power.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.boot.power.entity.UsergroupEntity;
+import com.boot.power.entity.UserGroupEntity;
 
 /**
  * <p>
@@ -12,6 +12,6 @@ import com.boot.power.entity.UsergroupEntity;
  * @author ${author}
  * @since 2019-11-12
  */
-public interface UsergroupMapper extends BaseMapper<UsergroupEntity> {
+public interface UsergroupMapper extends BaseMapper<UserGroupEntity> {
 
 }
