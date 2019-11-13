@@ -53,7 +53,7 @@ public class UserGroupController {
   }
 
   @ApiOperation("查询单个用户组")
-  @ApiImplicitParam(name = "id", value = "用户组 id", required = true, dataType = "Long")
+  @ApiImplicitParam(name = "id", value = "用户组 id", required = true)
   @GetMapping("/users/groups/{id}")
   public ResultBean queryUserGroup(@PathVariable Integer id) {
     UserGroupEntity result = userGroupService.getById(id);
@@ -85,7 +85,7 @@ public class UserGroupController {
   }
 
   @ApiOperation("删除单个用户组")
-  @ApiImplicitParam(name = "id", value = "用户组 id", required = true, dataType = "Long")
+  @ApiImplicitParam(name = "id", value = "用户组 id", required = true)
   @DeleteMapping("/users/groups/{id}")
   public ResultBean deleteUserGroup(@PathVariable Integer id) {
     boolean flag = userGroupService.removeById(id);

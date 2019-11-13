@@ -38,7 +38,7 @@ public class UserRoleController {
 
 
   @ApiOperation("获取指定角色下的用户列表")
-  @ApiImplicitParam(name = "roleId", value = "角色 id", required = true, dataType = "Long")
+  @ApiImplicitParam(name = "roleId", value = "角色 id", required = true)
   @GetMapping("/roles/{roleId}/users")
   public ResultBean getUserListByRoleId(@PathVariable Integer roleId) {
     List<UserRoleEntity> userList = userRoleService
@@ -48,7 +48,7 @@ public class UserRoleController {
 
   @ApiOperation("给用户分配角色")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "userId", value = "用户 id", required = true, dataType = "Long")
+      @ApiImplicitParam(name = "userId", value = "用户 id", required = true)
   })
   @PostMapping("/users/{userId}/roles")
   public ResultBean addUserRoles(
@@ -66,8 +66,8 @@ public class UserRoleController {
 
   @ApiOperation("删除指定用户的指定角色")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "userId", value = "用户 id", required = true, dataType = "Long"),
-      @ApiImplicitParam(name = "roleId", value = "角色 id", required = true, dataType = "Long")
+      @ApiImplicitParam(name = "userId", value = "用户 id", required = true),
+      @ApiImplicitParam(name = "roleId", value = "角色 id", required = true)
   })
   @DeleteMapping("/users/{userId}/roles/{roleId}")
   public ResultBean deleteUserRole(@PathVariable Integer userId, @PathVariable Integer roleId) {
@@ -83,7 +83,7 @@ public class UserRoleController {
 
   @ApiOperation("修改用户角色")
   @ApiImplicitParams({
-      @ApiImplicitParam(name = "userId", value = "用户 id", required = true, dataType = "Long")
+      @ApiImplicitParam(name = "userId", value = "用户 id", required = true)
   })
   @PutMapping("/users/{userId}/roles")
   public ResultBean updateUserRole(

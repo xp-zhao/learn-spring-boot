@@ -40,7 +40,7 @@ public class RoleController {
     }
 
     @ApiOperation("查询角色信息")
-    @ApiImplicitParam(name = "id", value = "角色 id", required = true, dataType = "Long")
+    @ApiImplicitParam(name = "id", value = "角色 id", required = true)
     @GetMapping("/{id}")
     public ResultBean getRoleById(@PathVariable Integer id) {
         RoleEntity role = roleService.getById(id);
@@ -69,7 +69,7 @@ public class RoleController {
 
     @ApiOperation("更新角色信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "角色 id", required = true, dataType = "Long"),
+            @ApiImplicitParam(name = "id", value = "角色 id", required = true),
             @ApiImplicitParam(name = "role", value = "角色实体", required = true, dataType = "RoleEntity")
     })
     @PutMapping("/{id}")

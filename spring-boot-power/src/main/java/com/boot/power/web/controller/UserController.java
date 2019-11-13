@@ -63,7 +63,7 @@ public class UserController {
 
     @ApiOperation("更新用户信息")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "用户 id", required = true, dataType = "Long"),
+            @ApiImplicitParam(name = "id", value = "用户 id"),
             @ApiImplicitParam(name = "user", value = "用户实体", required = true, dataType = "UserInfoEntity")
     })
     @PutMapping("/{id}")
@@ -83,7 +83,7 @@ public class UserController {
     }
 
     @ApiOperation(("查询用户信息"))
-    @ApiImplicitParam(name = "id", value = "用户 id", required = true, dataType = "Long")
+    @ApiImplicitParam(name = "id", value = "用户 id", required = true)
     @GetMapping("/{id}")
     public ResultBean getUserById(
             @PathVariable("id") @NotNull(message = "用户 id 不能为空", groups = ValidateGroup.Query.class) Integer id) {

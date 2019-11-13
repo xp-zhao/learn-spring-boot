@@ -1,6 +1,7 @@
 package com.boot.power.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.boot.power.common.validater.ValidateGroup;
@@ -31,6 +32,7 @@ public class UserGroupEntity implements Serializable {
    * 用户组名称
    */
   @NotBlank(message = "用户组名称不能为空", groups = {ValidateGroup.Add.class, ValidateGroup.Update.class})
+  @TableField(value = "usergroup_name")
   private String userGroupName;
 
   /**
