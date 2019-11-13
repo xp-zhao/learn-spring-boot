@@ -14,4 +14,22 @@ import com.boot.power.entity.UserGroupRoleEntity;
  */
 public interface UserGroupRoleService extends IService<UserGroupRoleEntity> {
 
+  /**
+   * 为用户组设置角色
+   *
+   * @param groupId 用户组 id
+   * @param roleId 角色 id
+   * @return 返回码
+   */
+  Integer addRoleToUserGroup(Integer groupId, Integer roleId);
+
+  /**
+   * 删除用户组的角色
+   *
+   * @param groupId 用户组 id
+   * @param roleId 角色 id
+   * @return 返回码
+   */
+  Integer deleteRoleFromUserGroup(Integer groupId, Integer roleId);
+
 }
