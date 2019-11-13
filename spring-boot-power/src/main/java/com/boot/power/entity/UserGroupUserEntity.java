@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  * @since 2019-11-12
  */
 @TableName("tbl_usergroup_user")
-public class UsergroupUserEntity implements Serializable {
+public class UserGroupUserEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -85,7 +85,7 @@ public class UsergroupUserEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "UsergroupUserEntity{" +
+        return "UserGroupUserEntity{" +
         "id=" + id +
         ", usergroupId=" + usergroupId +
         ", userId=" + userId +

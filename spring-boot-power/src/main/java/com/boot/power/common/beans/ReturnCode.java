@@ -34,7 +34,11 @@ public enum ReturnCode {
   /**
    * 用户组已存在
    */
-  REPEAT_USER_GROUP(-4, "用户组已存在");
+  REPEAT_USER_GROUP(-4, "用户组已存在"),
+  /**
+   * 用户已存在与用户组中
+   */
+  REPEAT_USER_GROUP_USER(-5, "用户已存在与用户组中");
   private final Integer code;
   private final String msg;
 
