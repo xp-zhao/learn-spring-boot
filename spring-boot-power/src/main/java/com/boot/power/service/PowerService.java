@@ -14,4 +14,12 @@ import com.boot.power.entity.PowerEntity;
  */
 public interface PowerService extends IService<PowerEntity> {
 
+  /**
+   * 新增权限
+   *
+   * @param name 权限名称
+   * @param type 权限类型
+   * @return 返回码
+   */
+  Integer addPower(String name, Integer type);
 }

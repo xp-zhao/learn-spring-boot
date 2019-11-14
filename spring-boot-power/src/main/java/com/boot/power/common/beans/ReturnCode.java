@@ -18,7 +18,7 @@ public enum ReturnCode {
   /**
    * 用户不存在
    */
-  NO_USER(-2, "用户不存在“"),
+  NO_USER(-2, "用户不存在"),
   /**
    * 角色不存在
    */
@@ -42,7 +42,11 @@ public enum ReturnCode {
   /**
    * 角色已存在与用户组中
    */
-  REPEAT_USER_GROUP_ROLE(-5, "角色已存在与用户组中");
+  REPEAT_USER_GROUP_ROLE(-5, "角色已存在与用户组中"),
+  /**
+   * 权限已存在
+   */
+  REPEAT_POWER(-6, "权限已存在");
   private final Integer code;
   private final String msg;
 
