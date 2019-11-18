@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.boot.power.common.beans.ReturnCode;
 import com.boot.power.entity.UserGroupEntity;
-import com.boot.power.mapper.UsergroupMapper;
+import com.boot.power.mapper.UserGroupMapper;
 import com.boot.power.service.UserGroupService;
 import java.time.LocalDateTime;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Service;
  * @since 2019-11-12
  */
 @Service
-public class UserGroupServiceImpl extends ServiceImpl<UsergroupMapper, UserGroupEntity> implements
+public class UserGroupServiceImpl extends ServiceImpl<UserGroupMapper, UserGroupEntity> implements
     UserGroupService {
 
   @Override

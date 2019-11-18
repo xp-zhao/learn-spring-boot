@@ -12,6 +12,6 @@ import com.boot.power.entity.UserGroupEntity;
  * @author ${author}
  * @since 2019-11-12
  */
-public interface UsergroupMapper extends BaseMapper<UserGroupEntity> {
+public interface UserGroupMapper extends BaseMapper<UserGroupEntity> {
 
 }
