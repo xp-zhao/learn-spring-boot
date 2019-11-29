@@ -5,6 +5,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import lombok.Builder;
+import lombok.Data;
 
 /**
  * <p>
@@ -14,7 +16,9 @@ import java.time.LocalDateTime;
  * @author ${author}
  * @since 2019-11-12
  */
-@TableName("tbl_usergroup_role")
+@TableName("tbl_user_group_role")
+@Data
+@Builder
 public class UserGroupRoleEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -25,7 +29,7 @@ public class UserGroupRoleEntity implements Serializable {
     /**
      * 用户组 id
      */
-    private Integer usergroupId;
+    private Integer userGroupId;
 
     /**
      * 角色 id
@@ -41,56 +45,4 @@ public class UserGroupRoleEntity implements Serializable {
      * 更新时间
      */
     private LocalDateTime updateDate;
-
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getUsergroupId() {
-        return usergroupId;
-    }
-
-    public void setUsergroupId(Integer usergroupId) {
-        this.usergroupId = usergroupId;
-    }
-
-    public Integer getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Integer roleId) {
-        this.roleId = roleId;
-    }
-
-    public LocalDateTime getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
-    }
-
-    public LocalDateTime getUpdateDate() {
-        return updateDate;
-    }
-
-    public void setUpdateDate(LocalDateTime updateDate) {
-        this.updateDate = updateDate;
-    }
-
-    @Override
-    public String toString() {
-        return "UserGroupRoleEntity{" +
-        "id=" + id +
-        ", usergroupId=" + usergroupId +
-        ", roleId=" + roleId +
-        ", createDate=" + createDate +
-        ", updateDate=" + updateDate +
-        "}";
-    }
 }

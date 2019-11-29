@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
  * @author ${author}
  * @since 2019-11-12
  */
-@TableName("tbl_pageelement")
-public class PageelementEntity implements Serializable {
+@TableName("tbl_page_element")
+public class PageElementEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -75,7 +75,7 @@ public class PageelementEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "PageelementEntity{" +
+        return "PageElementEntity{" +
         "id=" + id +
         ", elementName=" + elementName +
         ", createDate=" + createDate +

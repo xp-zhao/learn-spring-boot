@@ -2,7 +2,7 @@ package com.boot.power.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.boot.power.entity.PageelementEntity;
+import com.boot.power.entity.PageElementEntity;
 
 /**
  * <p>
@@ -12,6 +12,6 @@ import com.boot.power.entity.PageelementEntity;
  * @author ${author}
  * @since 2019-11-12
  */
-public interface PageelementService extends IService<PageelementEntity> {
+public interface PageelementService extends IService<PageElementEntity> {
 
 }

@@ -17,7 +17,7 @@ import javax.validation.constraints.NotBlank;
  * @author ${author}
  * @since 2019-11-12
  */
-@TableName("tbl_usergroup")
+@TableName("tbl_user_group")
 public class UserGroupEntity implements Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -32,7 +32,6 @@ public class UserGroupEntity implements Serializable {
    * 用户组名称
    */
   @NotBlank(message = "用户组名称不能为空", groups = {ValidateGroup.Add.class, ValidateGroup.Update.class})
-  @TableField(value = "usergroup_name")
   private String userGroupName;
 
   /**

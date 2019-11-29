@@ -2,7 +2,7 @@ package com.boot.power.service.impl;
 
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.boot.power.entity.PageelementEntity;
+import com.boot.power.entity.PageElementEntity;
 import com.boot.power.mapper.PageelementMapper;
 import com.boot.power.service.PageelementService;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class PageelementServiceImpl extends
-    ServiceImpl<PageelementMapper, PageelementEntity> implements
+    ServiceImpl<PageelementMapper, PageElementEntity> implements
     PageelementService {
 
 }

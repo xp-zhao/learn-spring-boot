@@ -1,17 +1,20 @@
 package com.boot.power.service.impl;
 
 
+import cn.hutool.core.util.ObjectUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.boot.power.common.beans.ReturnCode;
+import com.boot.power.dto.UserGroupUserDTO;
 import com.boot.power.entity.UserGroupEntity;
 import com.boot.power.entity.UserGroupUserEntity;
 import com.boot.power.entity.UserInfoEntity;
-import com.boot.power.mapper.UsergroupUserMapper;
+import com.boot.power.mapper.UserGroupUserMapper;
 import com.boot.power.service.UserGroupService;
 import com.boot.power.service.UserGroupUserService;
 import com.boot.power.service.UserInfoService;
 import java.time.LocalDateTime;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,53 +28,70 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserGroupUserServiceImpl extends
-    ServiceImpl<UsergroupUserMapper, UserGroupUserEntity> implements
+    ServiceImpl<UserGroupUserMapper, UserGroupUserEntity> implements
     UserGroupUserService {
 
   @Autowired
   private UserGroupService userGroupService;
   @Autowired
   private UserInfoService userInfoService;
+  @Autowired
+  private UserGroupUserMapper userGroupUserMapper;
 
   @Override
-  public Integer addUserToUserGroup(Integer groupId, Integer userId) {
+  public ReturnCode addUserToUserGroup(Integer groupId, Integer userId) {
+    // 判断用户组是否存在
     UserGroupEntity userGroupEntity = userGroupService.getById(groupId);
-    if (userGroupEntity == null) {
-      return ReturnCode.NO_USER_GROUP.getCode();
+    if (ObjectUtil.isNull(userGroupEntity)) {
+      return ReturnCode.NO_USER_GROUP;
     }
+    // 判断用户是否存在
     UserInfoEntity userInfoEntity = userInfoService.getById(userId);
-    if (userInfoEntity == null) {
-      return ReturnCode.NO_USER.getCode();
+    if (ObjectUtil.isNull(userInfoEntity)) {
+      return ReturnCode.NO_USER;
     }
+    // 判断用户是否已经在当前用户组了
     UserGroupUserEntity userGroupUserEntity = getOne(new LambdaQueryWrapper<UserGroupUserEntity>()
-        .eq(UserGroupUserEntity::getUsergroupId, groupId)
+        .eq(UserGroupUserEntity::getUserGroupId, groupId)
         .eq(UserGroupUserEntity::getUserId, userId));
-    if (userGroupUserEntity != null) {
-      return ReturnCode.REPEAT_USER_GROUP_USER.getCode();
+    if (ObjectUtil.isNotNull(userGroupUserEntity)) {
+      return ReturnCode.REPEAT_USER_GROUP_USER;
     }
+    // 将用户添加到用户组中
     UserGroupUserEntity entity = new UserGroupUserEntity();
     LocalDateTime now = LocalDateTime.now();
-    entity.setUsergroupId(groupId);
+    entity.setUserGroupId(groupId);
     entity.setUserId(userId);
     entity.setCreateDate(now);
     entity.setUpdateDate(now);
     save(entity);
-    return ReturnCode.SUCCESS.getCode();
+    return ReturnCode.SUCCESS;
   }
 
   @Override
-  public Integer deleteUserFromUserGroup(Integer groupId, Integer userId) {
+  public ReturnCode deleteUserFromUserGroup(Integer groupId, Integer userId) {
+    // 判断用户组是否存在
     UserGroupEntity userGroupEntity = userGroupService.getById(groupId);
-    if (userGroupEntity == null) {
-      return ReturnCode.NO_USER_GROUP.getCode();
+    if (ObjectUtil.isNull(userGroupEntity)) {
+      return ReturnCode.NO_USER_GROUP;
     }
-    UserInfoEntity userInfoEntity = userInfoService.getById(userId);
-    if (userInfoEntity == null) {
-      return ReturnCode.NO_USER.getCode();
+    // 判断用户是否存在于当前用户组中
+    UserGroupUserEntity userGroupUserEntity = getOne(
+        new LambdaQueryWrapper<UserGroupUserEntity>()
+            .eq(UserGroupUserEntity::getUserGroupId, groupId)
+            .eq(UserGroupUserEntity::getUserId, userId));
+    if (ObjectUtil.isNull(userGroupUserEntity)) {
+      return ReturnCode.NO_USER;
     }
     remove(new LambdaQueryWrapper<UserGroupUserEntity>()
-        .eq(UserGroupUserEntity::getUsergroupId, groupId)
+        .eq(UserGroupUserEntity::getUserGroupId, groupId)
         .eq(UserGroupUserEntity::getUserId, userId));
-    return ReturnCode.SUCCESS.getCode();
+    return ReturnCode.SUCCESS;
+  }
+
+  @Override
+  public List<UserGroupUserDTO> queryAllUserByGroup(Integer groupId) {
+    List<UserGroupUserDTO> result = userGroupUserMapper.queryAllUserByGroup(groupId);
+    return result;
   }
 }

@@ -2,7 +2,7 @@ package com.boot.power.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.boot.power.entity.PageelementEntity;
+import com.boot.power.entity.PageElementEntity;
 
 /**
  * <p>
@@ -12,6 +12,6 @@ import com.boot.power.entity.PageelementEntity;
  * @author ${author}
  * @since 2019-11-12
  */
-public interface PageelementMapper extends BaseMapper<PageelementEntity> {
+public interface PageelementMapper extends BaseMapper<PageElementEntity> {
 
 }

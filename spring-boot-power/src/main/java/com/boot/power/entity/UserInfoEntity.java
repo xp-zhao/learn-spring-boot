@@ -17,7 +17,7 @@ import javax.validation.constraints.NotNull;
  * @author ${author}
  * @since 2019-11-12
  */
-@TableName("tbl_userinfo")
+@TableName("tbl_user_info")
 public class UserInfoEntity implements Serializable {
 
   private static final long serialVersionUID = 1L;

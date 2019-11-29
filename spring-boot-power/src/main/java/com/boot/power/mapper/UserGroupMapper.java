@@ -2,7 +2,9 @@ package com.boot.power.mapper;
 
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.boot.power.dto.UserGroupUserDTO;
 import com.boot.power.entity.UserGroupEntity;
+import java.util.List;
 
 /**
  * <p>

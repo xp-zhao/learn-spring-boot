@@ -1,5 +1,5 @@
-drop table if exists tbl_userinfo;
-create table `tbl_userinfo`(
+drop table if exists tbl_user_info;
+create table `tbl_user_info`(
 	`id` int(11) not null AUTO_INCREMENT comment '用户 id',
 	`user_name` varchar(20) not null comment '用户名称',
 	`create_date` datetime not null comment '创建时间',
@@ -26,29 +26,29 @@ create table `tbl_user_role`(
 	primary key (`id`)
 )engine=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户角色关联表';
 
-drop table if exists tbl_usergroup;
-create table `tbl_usergroup`(
+drop table if exists tbl_user_group;
+create table `tbl_user_group`(
 	`id` int(11) not null AUTO_INCREMENT comment '用户组 id',
-	`usergroup_name` varchar(20) not null comment '用户组名称',
+	`user_group_name` varchar(20) not null comment '用户组名称',
 	`create_date` datetime not null comment '创建时间',
 	`update_date` datetime not null comment '更新时间',
 	primary key (`id`)
 )engine=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户组表';
 
-drop table if exists tbl_usergroup_user;
-create table `tbl_usergroup_user`(
+drop table if exists tbl_user_group_user;
+create table `tbl_user_group_user`(
 	`id` int(11) not null AUTO_INCREMENT,
-	`usergroup_id` int(11) not null comment '用户组 id',
+	`user_group_id` int(11) not null comment '用户组 id',
 	`user_id` int(11) not null comment '用户 id',
 	`create_date` datetime not null comment '创建时间',
 	`update_date` datetime not null comment '更新时间',
 	primary key (`id`)
 )engine=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='用户组与用户表';
 
-drop table if exists tbl_usergroup_role;
-create table `tbl_usergroup_role`(
+drop table if exists tbl_user_group_role;
+create table `tbl_user_group_role`(
 	`id` int(11) not null AUTO_INCREMENT,
-	`usergroup_id` int(11) not null comment '用户组 id',
+	`user_group_id` int(11) not null comment '用户组 id',
 	`role_id` int(11) not null comment '角色 id',
 	`create_date` datetime not null comment '创建时间',
 	`update_date` datetime not null comment '更新时间',
@@ -66,8 +66,8 @@ create table `tbl_menu`(
 	primary key (`id`)
 )engine=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='菜单表';
 
-drop table if exists tbl_pageelement;
-create table `tbl_pageelement`(
+drop table if exists tbl_page_element;
+create table `tbl_page_element`(
 	`id` int(11) not null AUTO_INCREMENT comment '页码元素 id',
 	`element_name` varchar(100) not null comment '元素名称',
 	`create_date` datetime not null comment '创建时间',

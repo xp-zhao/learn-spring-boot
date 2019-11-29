@@ -1,10 +1,9 @@
 package com.boot.power.web.controller;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.boot.power.common.beans.ResultBean;
 import com.boot.power.common.beans.ReturnCode;
-import com.boot.power.entity.UserGroupUserEntity;
+import com.boot.power.dto.UserGroupUserDTO;
 import com.boot.power.service.UserGroupUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -42,13 +41,10 @@ public class UserGroupUserController {
   public ResultBean addUserToUserGroup(
       @PathVariable Integer groupId,
       @PathVariable Integer userId) {
-    Integer code = userGroupUserService.addUserToUserGroup(groupId, userId);
+    ReturnCode returnCode = userGroupUserService.addUserToUserGroup(groupId, userId);
     ResultBean result = new ResultBean();
-    if (code < 0) {
-      result.setCode(code);
-      result.setMsg(ReturnCode.getMsg(code));
-      return result;
-    }
+    result.setCode(returnCode.getCode());
+    result.setMsg(returnCode.getMsg());
     return result;
   }
 
@@ -61,13 +57,10 @@ public class UserGroupUserController {
   public ResultBean deleteUserFromUserGroup(
       @PathVariable Integer groupId,
       @PathVariable Integer userId) {
-    Integer code = userGroupUserService.deleteUserFromUserGroup(groupId, userId);
+    ReturnCode returnCode = userGroupUserService.deleteUserFromUserGroup(groupId, userId);
     ResultBean result = new ResultBean();
-    if (code < 0) {
-      result.setCode(code);
-      result.setMsg(ReturnCode.getMsg(code));
-      return result;
-    }
+    result.setCode(returnCode.getCode());
+    result.setMsg(returnCode.getMsg());
     return result;
   }
 
@@ -75,9 +68,7 @@ public class UserGroupUserController {
   @ApiImplicitParam(name = "id", value = "用户组 id", required = true)
   @GetMapping("/groups/{id}/users")
   public ResultBean queryAllUserByGroup(@PathVariable Integer id) {
-    List<UserGroupUserEntity> result = userGroupUserService
-        .list(new LambdaQueryWrapper<UserGroupUserEntity>()
-            .eq(UserGroupUserEntity::getUsergroupId, id));
+    List<UserGroupUserDTO> result = userGroupUserService.queryAllUserByGroup(id);
     return new ResultBean(result);
   }
 }
