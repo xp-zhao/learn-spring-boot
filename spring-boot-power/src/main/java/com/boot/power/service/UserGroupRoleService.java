@@ -2,6 +2,7 @@ package com.boot.power.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.boot.power.common.beans.ReturnCode;
 import com.boot.power.entity.UserGroupRoleEntity;
 
 /**
@@ -21,7 +22,7 @@ public interface UserGroupRoleService extends IService<UserGroupRoleEntity> {
    * @param roleId 角色 id
    * @return 返回码
    */
-  Integer addRoleToUserGroup(Integer groupId, Integer roleId);
+  ReturnCode addRoleToUserGroup(Integer groupId, Integer roleId);
 
   /**
    * 删除用户组的角色
@@ -30,6 +31,6 @@ public interface UserGroupRoleService extends IService<UserGroupRoleEntity> {
    * @param roleId 角色 id
    * @return 返回码
    */
-  Integer deleteRoleFromUserGroup(Integer groupId, Integer roleId);
+  ReturnCode deleteRoleFromUserGroup(Integer groupId, Integer roleId);
 
 }

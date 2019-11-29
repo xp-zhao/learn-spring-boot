@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import java.util.List;
 import java.util.stream.Collectors;
+import net.bytebuddy.asm.Advice.Return;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -39,7 +40,7 @@ public class UserGroupRoleController {
   @GetMapping("/groups/{id}/roles")
   public ResultBean queryAllRoleByUserGroup(@PathVariable Integer id) {
     List<Integer> roleIds = userGroupRoleService.list(new LambdaQueryWrapper<UserGroupRoleEntity>()
-        .eq(UserGroupRoleEntity::getUsergroupId, id))
+        .eq(UserGroupRoleEntity::getUserGroupId, id))
         .stream()
         .map(UserGroupRoleEntity::getRoleId)
         .collect(Collectors.toList());
@@ -55,13 +56,10 @@ public class UserGroupRoleController {
   public ResultBean addRoleToUserGroup(
       @PathVariable Integer groupId,
       @PathVariable Integer roleId) {
-    Integer code = userGroupRoleService.addRoleToUserGroup(groupId, roleId);
+    ReturnCode returnCode = userGroupRoleService.addRoleToUserGroup(groupId, roleId);
     ResultBean result = new ResultBean();
-    if (code < 0) {
-      result.setCode(code);
-      result.setMsg(ReturnCode.getMsg(code));
-      return result;
-    }
+    result.setCode(returnCode.getCode());
+    result.setMsg(returnCode.getMsg());
     return result;
   }
 
@@ -74,13 +72,10 @@ public class UserGroupRoleController {
   public ResultBean deleteRoleFromUserGroup(
       @PathVariable Integer groupId,
       @PathVariable Integer roleId) {
-    Integer code = userGroupRoleService.deleteRoleFromUserGroup(groupId, roleId);
+    ReturnCode returnCode = userGroupRoleService.deleteRoleFromUserGroup(groupId, roleId);
     ResultBean result = new ResultBean();
-    if (code < 0) {
-      result.setCode(code);
-      result.setMsg(ReturnCode.getMsg(code));
-      return result;
-    }
+    result.setCode(returnCode.getCode());
+    result.setMsg(returnCode.getMsg());
     return result;
   }
 }
