@@ -41,14 +41,10 @@ public class UserGroupController {
   public ResultBean addUserGroup(
       @Validated(value = ValidateGroup.Add.class)
       @RequestBody UserGroupEntity userGroup) {
-    Integer code = userGroupService.addUserGroup(userGroup);
+    ReturnCode returnCode = userGroupService.addUserGroup(userGroup);
     ResultBean result = new ResultBean();
-    if (code < 0) {
-      result.setCode(code);
-      result.setMsg(ReturnCode.getMsg(code));
-      return result;
-    }
-    result.setData(userGroup);
+    result.setCode(returnCode.getCode());
+    result.setMsg(returnCode.getMsg());
     return result;
   }
 
@@ -73,14 +69,10 @@ public class UserGroupController {
   public ResultBean updateUserGroup(
       @Validated(value = ValidateGroup.Update.class)
       @RequestBody UserGroupEntity userGroup) {
-    Integer code = userGroupService.updateUserGroup(userGroup);
+    ReturnCode returnCode = userGroupService.updateUserGroup(userGroup);
     ResultBean result = new ResultBean();
-    if (code < 0) {
-      result.setCode(code);
-      result.setMsg(ReturnCode.getMsg(code));
-      return result;
-    }
-    result.setData(userGroup);
+    result.setCode(returnCode.getCode());
+    result.setMsg(returnCode.getMsg());
     return result;
   }
 

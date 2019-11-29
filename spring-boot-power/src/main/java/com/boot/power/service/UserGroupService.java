@@ -2,6 +2,7 @@ package com.boot.power.service;
 
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.boot.power.common.beans.ReturnCode;
 import com.boot.power.entity.UserGroupEntity;
 
 /**
@@ -20,7 +21,7 @@ public interface UserGroupService extends IService<UserGroupEntity> {
    * @param userGroup 用户组实体
    * @return 返回码
    */
-  Integer addUserGroup(UserGroupEntity userGroup);
+  ReturnCode addUserGroup(UserGroupEntity userGroup);
 
   /**
    * 更新用户组信息
@@ -28,5 +29,5 @@ public interface UserGroupService extends IService<UserGroupEntity> {
    * @param userGroup 用户组实体
    * @return 返回码
    */
-  Integer updateUserGroup(UserGroupEntity userGroup);
+  ReturnCode updateUserGroup(UserGroupEntity userGroup);
 }
