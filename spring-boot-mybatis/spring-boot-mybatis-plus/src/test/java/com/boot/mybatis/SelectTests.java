@@ -2,6 +2,8 @@ package com.boot.mybatis;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.boot.mybatis.entity.Order;
 import com.boot.mybatis.service.OrderService;
 import java.util.List;
@@ -43,5 +45,12 @@ public class SelectTests {
         .build();
     orderService.updateById(order);
     System.out.println(orderService.getById("12310"));
+  }
+
+  @Test
+  public void testPage(){
+    IPage<Order> page = new Page<>(1, 2);
+    page = orderService.page(page);
+    System.out.println(page.getRecords());
   }
 }

@@ -1,5 +1,7 @@
 package com.boot.mybatis.config;
 
+import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PerformanceInterceptor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
@@ -17,7 +19,6 @@ public class MybatisPlusConfig {
   /**
    * value = name = prefix + name
    * havingValue: 比较获取到的属性值与havingValue给定的值是否相同，相同才加载配置
-   *
    */
   @Bean
   @ConditionalOnProperty(prefix = "spring.profiles", name = "active", havingValue = "local")
@@ -32,5 +33,16 @@ public class MybatisPlusConfig {
      */
     performanceInterceptor.setFormat(true);
     return performanceInterceptor;
+  }
+
+  /**
+   * mybatis-plus分页插件<br>
+   * 文档：http://mp.baomidou.com<br>
+   */
+  @Bean
+  public PaginationInterceptor paginationInterceptor() {
+    PaginationInterceptor paginationInterceptor = new PaginationInterceptor();
+    paginationInterceptor.setDialectType(DbType.MYSQL.getDb());
+    return paginationInterceptor;
   }
 }
