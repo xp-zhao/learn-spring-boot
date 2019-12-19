@@ -1,12 +1,14 @@
 package com.boot.muldatasource.config;
 
-import com.alibaba.druid.pool.DruidDataSource;
 import com.baomidou.mybatisplus.extension.spring.MybatisSqlSessionFactoryBean;
+import com.zaxxer.hikari.HikariDataSource;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
+import org.apache.ibatis.plugin.Interceptor;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -24,11 +26,13 @@ public class DruidOneConfig {
 
   @Resource
   private OneParam oneParam;
+  @Autowired
+  private Interceptor[] plugins;
 
   @Bean("oneDataSource")
   public DataSource dataSource() {
-    DruidDataSource dataSource = new DruidDataSource();
-    dataSource.setUrl(oneParam.getUrl());
+    HikariDataSource dataSource = new HikariDataSource();
+    dataSource.setJdbcUrl(oneParam.getUrl());
     dataSource.setUsername(oneParam.getUsername());
     dataSource.setPassword(oneParam.getPassword());
     dataSource.setDriverClassName(oneParam.getDriverClassName());
@@ -40,6 +44,7 @@ public class DruidOneConfig {
       throws Exception {
     MybatisSqlSessionFactoryBean factory = new MybatisSqlSessionFactoryBean();
     factory.setDataSource(dataSource());
+    factory.setPlugins(plugins);
     return factory.getObject();
   }
 

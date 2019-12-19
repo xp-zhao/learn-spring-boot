@@ -1,13 +1,13 @@
 spring:
   datasource:
-    type: com.alibaba.druid.pool.DruidDataSource
+    type: com.zaxxer.hikari.HikariDataSource
     one:
-      url: jdbc:mysql://47.98.49.140:3306/mp
+      url: jdbc:mysql://47.98.49.140:3306/mp?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
       username: root
       password: 123456
       driver-class-name: com.mysql.jdbc.Driver
     two:
-      url: jdbc:mysql://47.98.49.140:3306/interview
+      url: jdbc:mysql://47.98.49.140:3306/interview?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true
       username: root
       password: 123456
       driver-class-name: com.mysql.jdbc.Driver
