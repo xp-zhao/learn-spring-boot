@@ -11,6 +11,8 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+import org.springframework.core.io.support.ResourcePatternResolver;
 
 /**
  * DruidOneConfig.java
@@ -21,37 +23,39 @@ import org.springframework.context.annotation.Configuration;
  **/
 @Configuration
 @MapperScan(basePackages = {
-    "com.boot.muldatasource.mapper.one"}, sqlSessionTemplateRef = "sqlSessionTemplateOne")
+		"com.boot.muldatasource.mapper.one"}, sqlSessionTemplateRef = "sqlSessionTemplateOne")
 public class DruidOneConfig {
 
-  @Resource
-  private OneParam oneParam;
-  @Autowired
-  private Interceptor[] plugins;
+	@Resource
+	private OneParam oneParam;
+	@Autowired
+	private Interceptor[] plugins;
 
-  @Bean("oneDataSource")
-  public DataSource dataSource() {
-    HikariDataSource dataSource = new HikariDataSource();
-    dataSource.setJdbcUrl(oneParam.getUrl());
-    dataSource.setUsername(oneParam.getUsername());
-    dataSource.setPassword(oneParam.getPassword());
-    dataSource.setDriverClassName(oneParam.getDriverClassName());
-    return dataSource;
-  }
+	@Bean("oneDataSource")
+	public DataSource dataSource() {
+		HikariDataSource dataSource = new HikariDataSource();
+		dataSource.setJdbcUrl(oneParam.getUrl());
+		dataSource.setUsername(oneParam.getUsername());
+		dataSource.setPassword(oneParam.getPassword());
+		dataSource.setDriverClassName(oneParam.getDriverClassName());
+		return dataSource;
+	}
 
-  @Bean
-  public SqlSessionFactory sqlSessionFactoryOne()
-      throws Exception {
-    MybatisSqlSessionFactoryBean factory = new MybatisSqlSessionFactoryBean();
-    factory.setDataSource(dataSource());
-    factory.setPlugins(plugins);
-    return factory.getObject();
-  }
+	@Bean
+	public SqlSessionFactory sqlSessionFactoryOne()
+			throws Exception {
+		MybatisSqlSessionFactoryBean factory = new MybatisSqlSessionFactoryBean();
+		ResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+		factory.setDataSource(dataSource());
+		factory.setMapperLocations(resolver.getResources("classpath*:mapper/one/*.xml"));
+		factory.setPlugins(plugins);
+		return factory.getObject();
+	}
 
-  @Bean(name = "sqlSessionTemplateOne")
-  public SqlSessionTemplate sqlSessionTemplateOne()
-      throws Exception {
-    return new SqlSessionTemplate(sqlSessionFactoryOne());
-  }
+	@Bean(name = "sqlSessionTemplateOne")
+	public SqlSessionTemplate sqlSessionTemplateOne()
+			throws Exception {
+		return new SqlSessionTemplate(sqlSessionFactoryOne());
+	}
 
 }
