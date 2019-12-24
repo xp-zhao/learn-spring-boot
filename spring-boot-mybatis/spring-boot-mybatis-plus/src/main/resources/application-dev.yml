@@ -1,0 +1,7 @@
+spring:
+  datasource:
+    url: jdbc:mysql://47.98.49.140:3306/mp
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+    type: com.zaxxer.hikari.HikariDataSource
