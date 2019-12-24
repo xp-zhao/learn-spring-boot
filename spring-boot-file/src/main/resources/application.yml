@@ -1,0 +1,22 @@
+spring:
+  application: spring-boot-file
+  profiles:
+    active: local
+  servlet:
+    multipart: # 文件上传配置
+      max-file-size: 50MB # 上传单个文件的最大值
+server:
+  port: 8080
+  tomcat:
+    accesslog:
+      enabled: true
+      directory: logs
+    basedir: ./
+logging:
+  file.max-size: 400MB
+  file:
+    name: logs/catalina.out
+
+uploadFile:
+  location: /home/nlsper/youxuepaiRepair # 自定义上传文件保存路径
+  accessPath: /upload/** # 静态资源对外访问路径
