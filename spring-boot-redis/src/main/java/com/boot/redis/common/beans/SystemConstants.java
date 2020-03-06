@@ -20,5 +20,10 @@ public interface SystemConstants {
      * 请求中的用户对象
      */
     String USER_ENTITY = "user";
+
+    /**
+     * token 过期时间 一小时
+     */
+    long EXPIRE_TIME = 60;
   }
 }

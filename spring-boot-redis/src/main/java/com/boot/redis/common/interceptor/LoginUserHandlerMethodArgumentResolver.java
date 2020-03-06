@@ -3,11 +3,13 @@ package com.boot.redis.common.interceptor;
 import com.boot.redis.annotation.LoginUser;
 import com.boot.redis.common.beans.SystemConstants.Auth;
 import com.boot.redis.entity.UserEntity;
-import com.boot.redis.utils.JwtUtil;
+import java.util.concurrent.TimeUnit;
 import javax.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.MethodParameter;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.support.WebDataBinderFactory;
 import org.springframework.web.context.request.NativeWebRequest;
@@ -22,6 +24,9 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 @Component
 @Slf4j
 public class LoginUserHandlerMethodArgumentResolver implements HandlerMethodArgumentResolver {
+
+  @Autowired
+  private RedisTemplate redisTemplate;
 
   @Override
   public boolean supportsParameter(MethodParameter param) {
@@ -52,8 +57,18 @@ public class LoginUserHandlerMethodArgumentResolver implements HandlerMethodArgu
       throw new IllegalArgumentException(Auth.TOKEN_KEY + "(token)不能为空");
     }
     try {
-      String username = JwtUtil.verifyToken(token).get("loginName").asString();
-      return username;
+
+//      String username = JwtUtil.verifyToken(token).get("loginName").asString();
+//      return username;
+      String name = String.valueOf(redisTemplate.opsForValue().get(token));
+      if (StringUtils.isNotBlank(name)) {
+        // 重新设置过期时间
+        redisTemplate.expire(token, Auth.EXPIRE_TIME, TimeUnit.MINUTES);
+        return name;
+      } else {
+        log.info("token 过期");
+        throw new RuntimeException("token 过期");
+      }
     } catch (Exception e) {
       log.error("token 解析失败");
     }
