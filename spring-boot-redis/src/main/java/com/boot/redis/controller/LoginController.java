@@ -27,4 +27,8 @@ public class LoginController {
     redisTemplate.opsForValue().set(token, user.getUsername(), Auth.EXPIRE_TIME, TimeUnit.MINUTES);
     return new ResultBean(token);
   }
+
+  public static void main(String[] args) {
+    String str = "{id=1}";
+  }
 }
