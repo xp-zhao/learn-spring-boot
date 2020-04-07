@@ -1,10 +1,14 @@
 package com.boot.mybatis;
 
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.boot.mybatis.entity.Employee;
 import com.boot.mybatis.entity.Order;
+import com.boot.mybatis.service.EmployeeService;
 import com.boot.mybatis.service.OrderService;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +30,8 @@ public class SelectTests {
 
   @Autowired
   private OrderService orderService;
+  @Autowired
+  private EmployeeService employeeService;
 
   @Test
   public void testOrder() {
@@ -48,9 +54,17 @@ public class SelectTests {
   }
 
   @Test
-  public void testPage(){
+  public void testPage() {
     IPage<Order> page = new Page<>(1, 2);
     page = orderService.page(page);
     System.out.println(page.getRecords());
+  }
+
+  @Test
+  public void testLambdaQuery() {
+    System.out.println(
+        employeeService.list(
+            Wrappers.<Employee>lambdaQuery().select(Employee::getId, Employee::getLastName)
+                .eq(Employee::getId, 10)));
   }
 }

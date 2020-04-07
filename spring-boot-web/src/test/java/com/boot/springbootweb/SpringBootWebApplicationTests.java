@@ -2,6 +2,7 @@ package com.boot.springbootweb;
 
 import com.boot.springbootweb.controller.WebController;
 import com.boot.springbootweb.entity.User;
+import com.boot.springbootweb.entity.ValueDemo;
 import com.boot.springbootweb.filter.JsonFilter;
 import com.boot.springbootweb.service.TestInterface;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -18,6 +19,8 @@ public class SpringBootWebApplicationTests {
 
   @Autowired
   private WebController webController;
+  @Autowired
+  private ValueDemo valueDemo;
 
   @Autowired
   @Qualifier("test2")
@@ -39,4 +42,9 @@ public class SpringBootWebApplicationTests {
     }
   }
 
+  @Test
+  public void testValue(){
+    ValueDemo v = new ValueDemo();
+    System.out.println(valueDemo.getValue());
+  }
 }

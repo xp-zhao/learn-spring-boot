@@ -19,8 +19,15 @@ public class TestRedisService {
   private RedisTemplate redisTemplate;
 
   @Test
-  public void set(){
+  public void setValue(){
     redisTemplate.opsForValue().set("key", "value");
     System.out.println(redisTemplate.opsForValue().get("key"));
+  }
+  
+  @Test
+  public void testList(){
+    redisTemplate.opsForZSet().add("bind", "judge", 1);
+    redisTemplate.opsForZSet().add("bind", "judge", 2);
+    redisTemplate.opsForZSet().add("bind", "judge", 3);
   }
 }
