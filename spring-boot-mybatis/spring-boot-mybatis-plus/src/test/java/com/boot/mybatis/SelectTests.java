@@ -62,9 +62,10 @@ public class SelectTests {
 
   @Test
   public void testLambdaQuery() {
-    System.out.println(
-        employeeService.list(
-            Wrappers.<Employee>lambdaQuery().select(Employee::getId, Employee::getLastName)
-                .eq(Employee::getId, 10)));
+    Wrapper wrapper = Wrappers.<Employee>lambdaQuery()
+        .select(Employee::getId, Employee::getLastName)
+        .eq(Employee::getId, -12);
+    List<Employee> list = employeeService.list(wrapper);
+    System.out.println(list.stream().map(Employee::getId).collect(Collectors.toList()));
   }
 }
