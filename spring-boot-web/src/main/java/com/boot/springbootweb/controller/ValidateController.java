@@ -38,12 +38,12 @@ public class ValidateController {
   }
 
   @RequestMapping("/insert")
-  public Book insert(@Validated(value = ValidateGroup.Default.class) Book book){
+  public Book insert(@Validated Book book){
     return book;
   }
 
   @RequestMapping("/update")
-  public Book update(@Validated(value = {ValidateGroup.Default.class, ValidateGroup.Update.class}) Book book){
+  public Book update(@Validated(value = {ValidateGroup.Update.class}) Book book){
     return book;
   }
 }

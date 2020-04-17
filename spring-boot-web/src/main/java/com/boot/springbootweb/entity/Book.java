@@ -18,10 +18,10 @@ public class Book {
 
   @NotNull(message = "id 不能为空", groups = ValidateGroup.Update.class)
   private Integer id;
-  @NotBlank(message = "name 不能为空", groups = ValidateGroup.Default.class)
+  @NotBlank(message = "name 不能为空")
   @Length(min = 2, max = 10, message = "name 长度必须在 {min} - {max} 之间")
   private String name;
-  @NotNull(message = "price 不能为空", groups = ValidateGroup.Default.class)
+  @NotNull(message = "price 不能为空")
   @DecimalMin(value = "0.1", message = "价格不能低于 {value}")
   private BigDecimal price;
 }

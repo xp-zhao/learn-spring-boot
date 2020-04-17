@@ -1,8 +1,10 @@
 package com.boot.power.common.validater;
 
+import javax.validation.groups.Default;
+
 /**
  * 参数验证组
- *
+ * <p>
  * ValidateGroup.java
  *
  * @author: zhaoxiaoping
@@ -10,15 +12,15 @@ package com.boot.power.common.validater;
  **/
 public class ValidateGroup {
 
-  public interface Add {
+  public interface Add extends Default {
 
   }
 
-  public interface Update {
+  public interface Update extends Default {
 
   }
 
-  public interface Query {
+  public interface Query extends Default {
 
   }
 }

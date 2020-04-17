@@ -12,6 +12,7 @@ import com.boot.mybatis.service.EmployeeService;
 import com.boot.mybatis.service.OrderService;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  **/
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Slf4j
 public class SelectTests {
 
   @Autowired
@@ -64,8 +66,8 @@ public class SelectTests {
   public void testLambdaQuery() {
     Wrapper wrapper = Wrappers.<Employee>lambdaQuery()
         .select(Employee::getId, Employee::getLastName)
-        .eq(Employee::getId, -12);
+        .eq(Employee::getId, 1);
     List<Employee> list = employeeService.list(wrapper);
-    System.out.println(list.stream().map(Employee::getId).collect(Collectors.toList()));
+    log.info(list.toString());
   }
 }

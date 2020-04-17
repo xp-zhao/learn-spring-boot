@@ -1,5 +1,7 @@
 package com.boot.springbootweb.entity;
 
+import javax.validation.groups.Default;
+
 /**
  * ValidateGroup.java 验证组
  *
@@ -8,11 +10,11 @@ package com.boot.springbootweb.entity;
  **/
 public class ValidateGroup {
 
-  public interface Update {
+  public interface Update extends Default {
 
   }
 
-  public interface Default {
+  public interface Add extends Default {
 
   }
 }

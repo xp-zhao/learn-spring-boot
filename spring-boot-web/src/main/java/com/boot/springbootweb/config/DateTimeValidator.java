@@ -32,8 +32,7 @@ public class DateTimeValidator implements ConstraintValidator<DateTime, String> 
     if (value.length() != format.length()) {
       return false;
     }
-    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format.replace("y", "u"))
-        .withResolverStyle(ResolverStyle.STRICT);
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
     try {
       formatter.parse(value);
     } catch (Exception e) {
