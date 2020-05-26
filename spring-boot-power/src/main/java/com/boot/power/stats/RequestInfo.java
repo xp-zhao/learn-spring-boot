@@ -1,6 +1,8 @@
 package com.boot.power.stats;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author zhaoxiaoping
@@ -8,6 +10,8 @@ import lombok.Data;
  * @Date 2020-5-26
  **/
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class RequestInfo {
 
   private String apiName;
