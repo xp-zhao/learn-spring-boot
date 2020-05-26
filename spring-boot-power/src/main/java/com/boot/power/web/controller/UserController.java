@@ -6,12 +6,14 @@ import com.boot.power.common.beans.ReturnCode;
 import com.boot.power.common.validater.ValidateGroup;
 import com.boot.power.entity.UserInfoEntity;
 import com.boot.power.service.UserInfoService;
+import com.boot.power.stats.Metrics;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,6 +41,13 @@ public class UserController {
 
     @Autowired
     private UserInfoService userinfoService;
+    private final Metrics metrics;
+
+    @Autowired
+    public UserController(Metrics metrics) {
+        this.metrics = metrics;
+        this.metrics.startRepeatedReport(60, TimeUnit.SECONDS);
+    }
 
     @ApiOperation("获取所有用户列表")
     @GetMapping("")
@@ -54,10 +63,14 @@ public class UserController {
     public ResultBean addUser(
             @Validated(value = ValidateGroup.Add.class)
             @RequestBody UserInfoEntity user) {
+        long startTimestamp = System.currentTimeMillis();
+        metrics.recordTimestamp("addUser", startTimestamp);
         Integer code = userinfoService.addUser(user);
         if (code.equals(ReturnCode.REPEAT_USER.getCode())) {
             return new ResultBean(ReturnCode.REPEAT_USER.getCode(), ReturnCode.REPEAT_USER.getMsg());
         }
+        long respTime = System.currentTimeMillis() - startTimestamp;
+        metrics.recordResponseTime("addUser", respTime);
         return new ResultBean(user);
     }
 
