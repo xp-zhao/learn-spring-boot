@@ -10,6 +10,7 @@ import javax.validation.ConstraintViolationException;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -39,42 +40,36 @@ public class GlobalExceptionHandler {
   }
 
   @ExceptionHandler(Exception.class)
-  public ErrorResponseEntity exceptionHandler(Exception e){
+  public ErrorResponseEntity exceptionHandler(Exception e) {
     return new ErrorResponseEntity(400, e.getMessage());
   }
 
   /**
-   * 实体对象参数校验失败后抛出的异常
+   * 参数校验异常
+   *
+   * @param ex
+   * @return
    */
-  @ExceptionHandler(BindException.class)
-  public ErrorResponseEntity bindExceptionHandler(BindException e) {
-    String message = e.getBindingResult().getAllErrors().stream().map(
-        DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining(","));
+  @ExceptionHandler(value = {BindException.class, MethodArgumentNotValidException.class,
+      ConstraintViolationException.class})
+  public ErrorResponseEntity validationErrorHandler(Exception ex) {
+    String message = "";
+    if (ex instanceof BindException) {
+      message = ((BindException) ex).getBindingResult().getAllErrors()
+          .stream()
+          .map(DefaultMessageSourceResolvable::getDefaultMessage)
+          .collect(Collectors.joining(","));
+    } else if (ex instanceof MethodArgumentNotValidException) {
+      message = ((MethodArgumentNotValidException) ex).getBindingResult().getAllErrors()
+          .stream()
+          .map(DefaultMessageSourceResolvable::getDefaultMessage)
+          .collect(Collectors.joining(","));
+    } else if (ex instanceof ConstraintViolationException) {
+      message = ((ConstraintViolationException) ex).getConstraintViolations()
+          .stream()
+          .map(ConstraintViolation::getMessage)
+          .collect(Collectors.joining(","));
+    }
     return new ErrorResponseEntity(400, message);
   }
-
-  /**
-   * 单个参数校验失败抛出的异常
-   */
-  @ExceptionHandler(ConstraintViolationException.class)
-  public ErrorResponseEntity constraintExceptionHandler(ConstraintViolationException e) {
-    String message = e.getConstraintViolations().stream().map(ConstraintViolation::getMessage)
-        .collect(Collectors.joining(","));
-    return new ErrorResponseEntity(400, message);
-  }
-//  @Override
-//  protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body,
-//      HttpHeaders headers, HttpStatus status, WebRequest request){
-//    if (ex instanceof MethodArgumentNotValidException) {
-//      MethodArgumentNotValidException exception = (MethodArgumentNotValidException) ex;
-//      return new ResponseEntity<>(new ErrorResponseEntity(status.value(), exception.getBindingResult().getAllErrors().get(0).getDefaultMessage()), status);
-//    }
-//    if (ex instanceof MethodArgumentTypeMismatchException) {
-//      MethodArgumentTypeMismatchException exception = (MethodArgumentTypeMismatchException) ex;
-//      logger.error("参数转换失败，方法：" + exception.getParameter().getMethod().getName() + "，参数：" + exception.getName()
-//          + ",信息：" + exception.getLocalizedMessage());
-//      return new ResponseEntity<>(new ErrorResponseEntity(status.value(), "参数转换失败"), status);
-//    }
-//    return new ResponseEntity<>(new ErrorResponseEntity(status.value(), "参数转换失败"), status);
-//  }
 }

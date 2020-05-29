@@ -28,12 +28,15 @@ public class DemoTest {
         return false;
       }
     };
-    transaction.setWalletRpcService(new MockWalletRpcService());
+    MockWalletRpcService mockWalletRpcService = new MockWalletRpcService();
+    transaction.setWalletRpcService(mockWalletRpcService);
     Mockito.when(transactionLock.lock(Mockito.anyString())).thenReturn(true);
     Mockito.doAnswer(null).when(transactionLock).unlock(Mockito.anyString());
     Mockito.doNothing().when(transactionLock).unlock(Mockito.anyString());
     transaction.setLock(transactionLock);
     boolean execute = transaction.execute();
+    Mockito.verify(mockWalletRpcService, Mockito.times(1))
+        .moveMoney(Mockito.anyString(), Mockito.anyLong(), Mockito.anyLong(), Mockito.anyDouble());
     Assert.assertTrue(execute);
   }
 }
