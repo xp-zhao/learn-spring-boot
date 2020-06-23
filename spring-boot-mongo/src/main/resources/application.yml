@@ -1,0 +1,9 @@
+spring:
+  profiles:
+    active: local
+  data:
+    mongodb:
+      uri: "mongodb://47.98.49.140:27017/xp"
+server:
+  servlet:
+    context-path: /api/mongo
