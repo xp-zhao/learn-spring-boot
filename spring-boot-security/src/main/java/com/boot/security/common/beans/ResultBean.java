@@ -49,6 +49,13 @@ public class ResultBean<T> implements Serializable {
     this.code = UNKNOWN_EXCEPTION;
   }
 
+  public static <T> ResultBean<T> ok(T data) {
+    ResultBean<T> re = new ResultBean<>();
+    re.setCode(SUCCESS);
+    re.setData(data);
+    return re;
+  }
+
   public static <T> ResultBean<T> error(String msg) {
     ResultBean<T> re = new ResultBean<>();
     re.setCode(1001);
