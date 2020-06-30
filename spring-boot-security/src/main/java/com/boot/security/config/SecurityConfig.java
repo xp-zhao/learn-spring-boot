@@ -1,7 +1,8 @@
 package com.boot.security.config;
 
-import com.alibaba.fastjson.JSONObject;
 import com.boot.security.common.beans.ResultBean;
+import com.boot.security.common.filter.CustomAuthenticationFilter;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.PrintWriter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +13,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
  * SecurityConfig.java Security 配置类
@@ -42,43 +44,42 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   public void configure(HttpSecurity http) throws Exception {
-    http.authorizeRequests()
-        .anyRequest().authenticated()
+    http.authorizeRequests().anyRequest().authenticated()
         .and()
         .formLogin()
-        .loginProcessingUrl("/login")
-        .successHandler((req, resp, auth) -> {
-          resp.setContentType(MediaType.APPLICATION_JSON_VALUE);
-          PrintWriter out = resp.getWriter();
-          ResultBean result = ResultBean.ok("登录成功");
-          out.append(JSONObject.toJSONString(result));
-          out.flush();
-          out.close();
-        })
         .and()
-        .csrf().disable()
-        .exceptionHandling()
-        .authenticationEntryPoint(((req, resp, authException) -> {
+        .csrf().disable().exceptionHandling()
+        .authenticationEntryPoint((req, resp, authException) -> {
           resp.setContentType(MediaType.APPLICATION_JSON_VALUE);
-          resp.setStatus(401);
           PrintWriter out = resp.getWriter();
-          ResultBean result = ResultBean.error("用户未登录");
-          out.append(JSONObject.toJSONString(result));
-          out.flush();
-          out.close();
-        }))
-        .and()
-        .logout()
-        .logoutUrl("/logout")
-        .logoutSuccessHandler((req, resp, authentication) -> {
-          resp.setContentType(MediaType.APPLICATION_JSON_VALUE);
-          resp.setStatus(200);
-          PrintWriter out = resp.getWriter();
-          ResultBean result = ResultBean.ok("注销成功");
-          out.append(JSONObject.toJSONString(result));
+          ResultBean result = ResultBean.ok("未登录!");
+          out.write(new ObjectMapper().writeValueAsString(result));
           out.flush();
           out.close();
         });
+    http.addFilterAt(customAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
+  }
 
+  @Bean
+  CustomAuthenticationFilter customAuthenticationFilter() throws Exception {
+    CustomAuthenticationFilter filter = new CustomAuthenticationFilter();
+    filter.setAuthenticationSuccessHandler((req, resp, auth) -> {
+      resp.setContentType(MediaType.APPLICATION_JSON_VALUE);
+      PrintWriter out = resp.getWriter();
+      ResultBean result = ResultBean.ok("登录成功!");
+      out.write(new ObjectMapper().writeValueAsString(result));
+      out.flush();
+      out.close();
+    });
+    filter.setAuthenticationFailureHandler((req, resp, auth) -> {
+      resp.setContentType(MediaType.APPLICATION_JSON_VALUE);
+      PrintWriter out = resp.getWriter();
+      ResultBean result = ResultBean.error("登录失败!");
+      out.write(new ObjectMapper().writeValueAsString(result));
+      out.flush();
+      out.close();
+    });
+    filter.setAuthenticationManager(authenticationManagerBean());
+    return filter;
   }
 }

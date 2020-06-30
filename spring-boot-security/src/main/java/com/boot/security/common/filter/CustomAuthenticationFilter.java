@@ -19,6 +19,9 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
  **/
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
+  public static final String USERNAME_KEY = "username";
+  public static final String PASSWORD_KEY = "password";
+
   @Override
   public Authentication attemptAuthentication(HttpServletRequest request,
       HttpServletResponse response) throws AuthenticationException {
@@ -26,13 +29,18 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
       ObjectMapper mapper = new ObjectMapper();
       UsernamePasswordAuthenticationToken authRequest = null;
       try (InputStream is = request.getInputStream()) {
-        mapper.readValue(is, Map.class);
+        Map<String, String> authenticationBean = mapper.readValue(is, Map.class);
+        authRequest = new UsernamePasswordAuthenticationToken(authenticationBean.get(USERNAME_KEY),
+            authenticationBean.get(PASSWORD_KEY));
       } catch (IOException e) {
-
+        e.printStackTrace();
+        authRequest = new UsernamePasswordAuthenticationToken("", "");
+      } finally {
+        setDetails(request, authRequest);
+        return this.getAuthenticationManager().authenticate(authRequest);
       }
     } else {
       return super.attemptAuthentication(request, response);
     }
-    return null;
   }
 }
