@@ -6,7 +6,7 @@ import com.boot.power.common.beans.ReturnCode;
 import com.boot.power.common.validater.ValidateGroup;
 import com.boot.power.entity.UserInfoEntity;
 import com.boot.power.service.UserInfoService;
-import com.boot.power.stats.Metrics;
+import com.boot.power.stats.collector.Metrics;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;

@@ -1,7 +1,9 @@
-package com.boot.power.stats;
+package com.boot.power.stats.collector;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
+import com.boot.power.stats.RequestInfo;
+import com.boot.power.stats.storage.MetricsStorage;
 
 /**
  * @author zhaoxiaoping

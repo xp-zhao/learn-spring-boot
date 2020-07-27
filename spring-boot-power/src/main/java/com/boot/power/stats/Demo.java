@@ -1,5 +1,9 @@
 package com.boot.power.stats;
 
+import com.boot.power.stats.collector.MetricsCollector;
+import com.boot.power.stats.storage.MetricsStorage;
+import com.boot.power.stats.storage.RedisMetricsStorage;
+
 /**
  * @author zhaoxiaoping
  * @Description:
@@ -9,8 +13,8 @@ public class Demo {
 
   public static void main(String[] args) {
     MetricsStorage storage = new RedisMetricsStorage();
-    ConsoleReporter consoleReporter = new ConsoleReporter(storage);
-    consoleReporter.startRepeatedReport(60, 60);
+//    ConsoleReporter consoleReporter = new ConsoleReporter(storage);
+//    consoleReporter.startRepeatedReport(60, 60);
     MetricsCollector collector = new MetricsCollector(storage);
     collector.recordRequest(new RequestInfo("register", 123, 10234));
     collector.recordRequest(new RequestInfo("register", 223, 11234));

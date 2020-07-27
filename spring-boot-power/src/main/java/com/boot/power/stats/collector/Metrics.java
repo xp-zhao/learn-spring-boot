@@ -1,4 +1,4 @@
-package com.boot.power.stats;
+package com.boot.power.stats.collector;
 
 import com.google.gson.Gson;
 import java.util.Collections;

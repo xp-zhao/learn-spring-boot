@@ -1,5 +1,6 @@
-package com.boot.power.stats;
+package com.boot.power.stats.storage;
 
+import com.boot.power.stats.RequestInfo;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
