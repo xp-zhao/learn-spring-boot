@@ -2,7 +2,6 @@ package com.boot.file.config;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 /**
@@ -20,10 +19,10 @@ public class UploadFileConfig extends WebMvcConfigurationSupport {
 	@Value("${uploadFile.accessPath}")
 	private String accessPath;
 
-	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler(accessPath)
-				.addResourceLocations("file:" + uploadFileLocation + "/");
-		super.addResourceHandlers(registry);
-	}
+//	@Override
+//	public void addResourceHandlers(ResourceHandlerRegistry registry) {
+//		registry.addResourceHandler(accessPath)
+//				.addResourceLocations("file:" + uploadFileLocation + "/");
+//		super.addResourceHandlers(registry);
+//	}
 }

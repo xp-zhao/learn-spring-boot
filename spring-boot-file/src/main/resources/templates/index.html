@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>测试页面</title>
+  <script src="http://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+  <script type="text/javascript">
+    let i = -1;
+    let shardSize = 1 * 1024 * 1024;    //以1MB为一个分片
+    let succeed = 0;
+    let page = {
+      init: function () {
+        $("#upload").click(function () {
+          let file = $("#file")[0].files[0];  //文件对象
+          upload(file);
+        });
+      }
+    };
+    $(function () {
+      page.init();
+    });
+
+    function upload(file) {
+      console.log("上传文件: " + file.name);
+      // 获取文件 id
+      $.ajax({
+        url: "slice/getFileId",
+        type: "GET",
+        data: {fileName: file.name},
+        contentType: false,  //很重要，指定为false才能形成正确的Content-Type
+        success: function (data) {
+          console.log("fileId: " + data);
+          $("#uuid").append(data);
+          realUpload(file, data);
+        }, error: function () {
+          alert("服务器出错!");
+        }
+      })
+    };
+
+    function realUpload(file, fileId) {
+      let fileName = file.name;
+      let size = file.size;
+      let shardCount = Math.ceil(size / shardSize);  //总片数
+      if (i > shardCount) {
+        return;
+      } else {
+        i += 1;
+      }
+      //计算每一片的起始与结束位置
+      let start = i * shardSize;
+      let end = Math.min(size, start + shardSize);
+      //构造一个表单，FormData是HTML5新增的
+      let form = new FormData();
+      form.append("file", file.slice(start, end));  //slice方法用于切出文件的一部分
+      form.append("name", fileName);
+      form.append("fileId", fileId);
+      form.append("total", shardCount);  //总片数
+      form.append("no", i + 1);        //当前是第几片
+      console.log("上传分片: ", i + 1);
+      //Ajax 上传
+      $.ajax({
+        url: "slice/upload",
+        type: "POST",
+        data: form,
+        async: true,        //异步
+        processData: false,  //很重要，告诉jquery不要对form进行处理
+        contentType: false,  //很重要，指定为false才能形成正确的Content-Type
+        success: function (data) {
+          ++succeed;
+          $("#output").text(succeed + " / " + shardCount);
+          if (succeed == shardCount) {
+            merge(fileId);
+            $("#param").append("<br/>" + "上传成功！");
+          } else {
+            realUpload(file, fileId);
+          }
+        }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+          alert("服务器出错!");
+        }
+      });
+    }
+
+    function merge(fileId) {
+      console.log("合并文件: " + fileId);
+      // 获取文件 id
+      $.ajax({
+        url: "slice/mergeFile",
+        type: "POST",
+        data: {fileId: fileId},
+        success: function (data) {
+          console.log("文件合并成功: " + fileId);
+        }, error: function () {
+          alert("服务器出错!");
+        }
+      })
+    };
+  </script>
+</head>
+<body>
+<input type="file" id="file"/>
+<button id="upload">上传</button>
+<br/><br/>
+<span style="font-size:16px">上传进度：</span><span id="output" style="font-size:16px"></span>
+<span id="useTime" style="font-size:16px;margin-left:20px;">上传时间：</span>
+<span id="uuid" style="font-size:16px;margin-left:20px;">文件ID：</span>
+<br/><br/>
+<span id="param" style="font-size:16px">上传过程：</span>
+</body>

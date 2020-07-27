@@ -5,6 +5,9 @@ spring:
   servlet:
     multipart: # 文件上传配置
       max-file-size: 50MB # 上传单个文件的最大值
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
 server:
   port: 8080
   tomcat:
@@ -19,4 +22,5 @@ logging:
 
 uploadFile:
   location: /home/nlsper/youxuepaiRepair # 自定义上传文件保存路径
+  accessPrefix: /xxx
   accessPath: /upload/** # 静态资源对外访问路径
