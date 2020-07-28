@@ -7,7 +7,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.channels.FileChannel;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import lombok.extern.slf4j.Slf4j;
@@ -41,9 +43,10 @@ public class MultipartUploadController {
   @GetMapping("/getFileId")
   public String getFileId(@RequestParam("fileName") String fileName) {
     log.info("上传文件名 {}", fileName);
-    String path = BASE_PATH + File.separator + fileName.substring(0, fileName.lastIndexOf("."));
+    String filePath = BASE_PATH + File.separator + fileName.substring(0, fileName.lastIndexOf("."));
+    Path path = Paths.get(filePath);
     try {
-      Files.createDirectory(Paths.get(path));
+      Files.createDirectory(path);
     } catch (IOException e) {
       log.error("文件夹 {} 创建失败", fileName, e);
     }
@@ -72,17 +75,25 @@ public class MultipartUploadController {
    * 文件合并
    */
   @PostMapping("/mergeFile")
-  public String mergeFile(@RequestParam("fileId")String fileId) throws IOException {
+  public String mergeFile(String fileId) {
     String path = BASE_PATH + File.separator + "image.jpg";
-    FileChannel outChannel = new FileOutputStream(path).getChannel();
-    List<String> fileNames = FileUtil.listFileNames(BASE_PATH + File.separator + fileId);
-    FileChannel sliceChannel;
-    for (String fileName : fileNames) {
-      String filePath = BASE_PATH + File.separator + fileId + File.separator + fileName;
-      sliceChannel = new FileInputStream(filePath).getChannel();
-      sliceChannel.transferTo(0, sliceChannel.size(), outChannel);
-      sliceChannel.close();
-      FileUtil.del(filePath);
+    try (FileChannel outChannel = new FileOutputStream(path).getChannel()) {
+      List<String> fileNames = FileUtil.listFileNames(BASE_PATH + File.separator + fileId);
+      FileChannel sliceChannel;
+      String folderPath = BASE_PATH + File.separator + fileId;
+      fileNames.sort(Comparator.comparing(s ->
+          Integer.valueOf(s.substring(0, s.lastIndexOf(".")))
+      ));
+      for (String fileName : fileNames) {
+        String filePath = folderPath + File.separator + fileName;
+        sliceChannel = new FileInputStream(filePath).getChannel();
+        sliceChannel.transferTo(0, sliceChannel.size(), outChannel);
+        sliceChannel.close();
+        FileUtil.del(filePath);
+      }
+      FileUtil.del(folderPath);
+    } catch (IOException e) {
+      e.printStackTrace();
     }
     return "success";
   }

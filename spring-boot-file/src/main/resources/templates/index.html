@@ -8,9 +8,12 @@
     let i = -1;
     let shardSize = 1 * 1024 * 1024;    //以1MB为一个分片
     let succeed = 0;
+    let dataBegin;  //开始时间
+    let dataEnd;    //结束时间
     let page = {
       init: function () {
         $("#upload").click(function () {
+          dataBegin = new Date();
           let file = $("#file")[0].files[0];  //文件对象
           upload(file);
         });
@@ -71,6 +74,9 @@
           $("#output").text(succeed + " / " + shardCount);
           if (succeed == shardCount) {
             merge(fileId);
+            dataEnd = new Date();
+            $("#useTime").append((dataEnd.getTime() - dataBegin.getTime())/1000);
+            $("#useTime").append("s")
             $("#param").append("<br/>" + "上传成功！");
           } else {
             realUpload(file, fileId);
