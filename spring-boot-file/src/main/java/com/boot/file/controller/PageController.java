@@ -17,4 +17,10 @@ public class PageController {
     map.addAttribute("newWord", "success");
     return "index";
   }
+
+  @RequestMapping("/uplaod")
+  public String upload(Model map) {
+    map.addAttribute("newWord", "success");
+    return "upload";
+  }
 }

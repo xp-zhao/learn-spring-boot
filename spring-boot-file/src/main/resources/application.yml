@@ -24,3 +24,11 @@ uploadFile:
   location: /home/nlsper/youxuepaiRepair # 自定义上传文件保存路径
   accessPrefix: /xxx
   accessPath: /upload/** # 静态资源对外访问路径
+
+aliyun:
+  oss:
+    endpoint: http://oss-cn-chengdu.aliyuncs.com
+    accessKeyId: 
+    accessKeySecret: 
+    bucketName: xp-oss-bucket
+    accessPath: http://oss.xp-zhao.cn/

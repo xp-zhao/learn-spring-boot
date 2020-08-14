@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>文件上传-测试页面</title>
+  <script src="http://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+  <script type="text/javascript">
+    let page = {
+      init: function () {
+        $("#upload").click(function () {
+          let file = $("#file")[0].files[0];  //文件对象
+          upload(file);
+        });
+      }
+    };
+    $(function () {
+      page.init();
+    });
+
+    function upload(file) {
+      console.log("上传文件: " + file.name);
+      //Ajax 上传
+      let form = new FormData();
+      form.append("file", file);
+      $.ajax({
+        url: "aliyun/upload",
+        type: "POST",
+        data: form,
+        async: true,        //异步
+        processData: false,  //很重要，告诉jquery不要对form进行处理
+        contentType: false,  //很重要，指定为false才能形成正确的Content-Type
+        success: function (data) {
+          alert("成功");
+        }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+          alert("服务器出错!");
+        }
+      });
+    };
+  </script>
+</head>
+<body>
+<input type="file" id="file"/>
+<button id="upload">上传</button>
+<br/><br/>
+<span id="path" style="font-size:16px;margin-left:20px;">访问路径：</span>
+<br/><br/>
+</body>
