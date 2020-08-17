@@ -18,4 +18,5 @@ public class AliyunOSSConfig {
   private String accessKeySecret;
   private String bucketName;
   private String endpoint;
+  private String accessHost;
 }

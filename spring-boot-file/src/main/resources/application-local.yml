@@ -1,0 +1,7 @@
+aliyun:
+  oss:
+    endpoint: http://oss-cn-chengdu.aliyuncs.com
+    accessKeyId: 
+    accessKeySecret: 
+    bucketName: xp-oss-bucket
+    accessHost: oss.xp-zhao.cn

@@ -18,7 +18,7 @@ public class PageController {
     return "index";
   }
 
-  @RequestMapping("/uplaod")
+  @RequestMapping("/upload")
   public String upload(Model map) {
     map.addAttribute("newWord", "success");
     return "upload";

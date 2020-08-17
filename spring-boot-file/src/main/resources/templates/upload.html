@@ -30,7 +30,8 @@
         processData: false,  //很重要，告诉jquery不要对form进行处理
         contentType: false,  //很重要，指定为false才能形成正确的Content-Type
         success: function (data) {
-          alert("成功");
+          console.log(data);
+          $("#path").append(data);
         }, error: function (XMLHttpRequest, textStatus, errorThrown) {
           alert("服务器出错!");
         }

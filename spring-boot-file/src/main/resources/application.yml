@@ -9,7 +9,7 @@ spring:
     prefix: classpath:/templates/
     suffix: .html
 server:
-  port: 8080
+  port: 8086
   tomcat:
     accesslog:
       enabled: true
@@ -31,4 +31,4 @@ aliyun:
     accessKeyId: 
     accessKeySecret: 
     bucketName: xp-oss-bucket
-    accessPath: http://oss.xp-zhao.cn/
+    accessHost: http://oss.xp-zhao.cn

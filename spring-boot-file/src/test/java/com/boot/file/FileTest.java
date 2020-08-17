@@ -1,5 +1,7 @@
 package com.boot.file;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -30,5 +32,15 @@ public class FileTest {
     System.out.println(sizeStr);
     System.out.println(sizeStr.split(":")[0]);
     System.out.println(sizeStr.split(":")[1]);
+  }
+  
+  @Test
+  public void testUrl() throws MalformedURLException {
+    String path = "http://xp-oss-bucket.oss-cn-chengdu.aliyuncs.com/qrCode.jpg?Expires=1597637909&OSSAccessKeyId=LTAI4GFrTG7eAuWhUP4egoxx&Signature=jmB8ZV8sESq0YfeB0jEj6X2RGGQ%3D";
+    URL url = new URL(path);
+    System.out.println(url.getHost());
+    System.out.println(url.getRef());
+    path.replaceAll(url.getHost(), "oss.xp-zhao.cn");
+    System.out.println(path);
   }
 }
