@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>文件下载-测试页面</title>
+  <script src="http://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+  <script type="text/javascript">
+    function download() {
+      //Ajax 下载
+      let form = new FormData();
+      form.append("file", file);
+      $.ajax({
+        url: "aliyun/upload",
+        type: "POST",
+        data: form,
+        async: true,        //异步
+        processData: false,  //很重要，告诉jquery不要对form进行处理
+        contentType: false,  //很重要，指定为false才能形成正确的Content-Type
+        success: function (data) {
+          console.log(data);
+          $("#path").append(data);
+        }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+          alert("服务器出错!");
+        }
+      });
+    };
+  </script>
+</head>
+<body>
+<button id="download" onclick="download()">下载</button>
+</body>
