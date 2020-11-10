@@ -2,6 +2,7 @@ package com.boot.file;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -23,9 +24,9 @@ public class FileTest {
     ));
     System.out.println(fileNames);
   }
-  
+
   @Test
-  public void testStr(){
+  public void testStr() {
     String str = "asdafsfasfs#13:34";
     System.out.println(str.substring(0, str.lastIndexOf("#")));
     String sizeStr = str.substring(str.lastIndexOf("#") + 1);
@@ -33,7 +34,7 @@ public class FileTest {
     System.out.println(sizeStr.split(":")[0]);
     System.out.println(sizeStr.split(":")[1]);
   }
-  
+
   @Test
   public void testUrl() throws MalformedURLException {
     String path = "http://xp-oss-bucket.oss-cn-chengdu.aliyuncs.com/qrCode.jpg?Expires=1597637909&OSSAccessKeyId=LTAI4GFrTG7eAuWhUP4egoxx&Signature=jmB8ZV8sESq0YfeB0jEj6X2RGGQ%3D";
@@ -42,5 +43,18 @@ public class FileTest {
     System.out.println(url.getRef());
     path.replaceAll(url.getHost(), "oss.xp-zhao.cn");
     System.out.println(path);
+  }
+
+  @Test
+  public void iterator() {
+    List<Integer> list = new ArrayList<>();
+    List<Integer> all = new ArrayList<>();
+    list.add(1);
+    list.add(2);
+    list.add(3);
+    all.addAll(list);
+    list.clear();
+    System.out.println(all);
+
   }
 }
