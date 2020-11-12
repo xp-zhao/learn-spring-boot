@@ -14,10 +14,9 @@ public interface FileStore {
    * 上传文件
    *
    * @param file
-   * @param bucketName
    * @return
    */
-  String upload(MultipartFile file, String bucketName);
+  String upload(MultipartFile file);
 
   /**
    * 下载文件

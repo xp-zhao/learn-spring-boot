@@ -19,8 +19,6 @@ public class AliyunOSSClient {
 
   @Bean
   public OSS ossClient() {
-    ossConfig.setAccessKeyId("xxx");
-    ossConfig.setAccessKeySecret("xxx");
     return new OSSClientBuilder()
         .build(ossConfig.getEndpoint(), ossConfig.getAccessKeyId(), ossConfig.getAccessKeySecret());
   }

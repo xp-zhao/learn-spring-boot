@@ -32,17 +32,43 @@
         success: function (data) {
           console.log(data);
           $("#path").append(data);
+          $("#img_id").attr("src", "http://" + data);
         }, error: function (XMLHttpRequest, textStatus, errorThrown) {
           alert("服务器出错!");
         }
       });
     };
+
+    function rotate() {
+      console.log("旋转图片: sssss.png");
+      //Ajax 
+      let form = new FormData();
+      form.append("objectName", "sssss.png");
+      $.ajax({
+        url: "aliyun/rotate",
+        type: "POST",
+        data: form,
+        async: true,        //异步
+        processData: false,  //很重要，告诉jquery不要对form进行处理
+        contentType: false,  //很重要，指定为false才能形成正确的Content-Type
+        success: function (data) {
+          console.log(data);
+        }, error: function (XMLHttpRequest, textStatus, errorThrown) {
+          alert("服务器出错!");
+        }
+      });
+    }
   </script>
 </head>
 <body>
 <input type="file" id="file"/>
 <button id="upload">上传</button>
+<button id="rotate" onclick="rotate()">旋转</button>
 <br/><br/>
 <span id="path" style="font-size:16px;margin-left:20px;">访问路径：</span>
 <br/><br/>
+<img
+    src="http://oss.xp-zhao.cn/sssss.png?Expires=1605152847&OSSAccessKeyId=LTAI4GFrTG7eAuWhUP4egoxx&Signature=wd904JMcEJV2TtqbCxR0yv%2BH2zc%3D"
+    id="img_id">
 </body>
+</html>

@@ -32,12 +32,13 @@ public class AliyunFileStore implements FileStore {
   private OSS oss;
 
   @Override
-  public String upload(MultipartFile file, String bucketName) {
+  public String upload(MultipartFile file) {
     String accessUrl = "";
     try {
       ObjectMetadata metadata = new ObjectMetadata();
       metadata.setObjectAcl(CannedAccessControlList.PublicRead);
-      oss.putObject(bucketName, file.getOriginalFilename(), file.getInputStream(), metadata);
+      oss.putObject(ossConfig.getBucketName(), file.getOriginalFilename(), file.getInputStream(),
+          metadata);
       accessUrl = getAccessUrl(file.getOriginalFilename());
     } catch (IOException e) {
       e.printStackTrace();
@@ -64,7 +65,7 @@ public class AliyunFileStore implements FileStore {
     request = new GeneratePresignedUrlRequest(ossConfig.getBucketName(), key);
     LocalDateTime now = LocalDateTime.now();
     // 设置 URL 过期时间(2 小时)
-    now = now.plusHours(2);
+    now = now.plusHours(24);
     Date date = Date.from(now.atZone(ZoneId.systemDefault()).toInstant());
     request.setExpiration(date);
     URL url = oss.generatePresignedUrl(request);
