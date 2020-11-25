@@ -2,8 +2,6 @@ package com.boot.mq.consumer;
 
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.amqp.rabbit.annotation.RabbitHandler;
-import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 /**
@@ -12,11 +10,11 @@ import org.springframework.stereotype.Component;
  * @Date 2020-11-24
  **/
 @Component
-@RabbitListener(queues = "DirectQueue")
+//@RabbitListener(queues = "TopicQueue")
 @Slf4j
-public class DirectReceiver {
+public class TopicReceiver {
 
-  @RabbitHandler
+//  @RabbitHandler
   public void process(Map msg) {
     /**
      * bookId: 书本 id

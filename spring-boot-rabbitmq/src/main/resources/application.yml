@@ -6,5 +6,9 @@ spring:
     port: 
     username: 
     password: 
-    
+    # 消息确认配置
+    # 确认消息已经发送到交换机
+    publisher-confirm-type: correlated
+    # 确认消息已经发送到队列
+    publisher-returns: true
   

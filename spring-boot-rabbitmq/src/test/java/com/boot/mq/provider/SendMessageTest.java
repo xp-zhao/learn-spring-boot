@@ -22,16 +22,29 @@ public class SendMessageTest {
   private RabbitTemplate rabbitTemplate;
 
   @Test
-  public void testSend() {
+  public void testDirectSend() {
     String messageId = String.valueOf(UUID.randomUUID());
     String messageData = "test message, hello!";
     String createTime = LocalDateTime.now()
         .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     Map<String, Object> map = new HashMap<>();
-    map.put("messageId", messageId);
-    map.put("messageData", messageData);
-    map.put("createTime", createTime);
+    map.put("bookId", messageId);
+    map.put("oprType", messageData);
+    map.put("sendTime", createTime);
     //将消息携带绑定键值：TestDirectRouting 发送到交换机TestDirectExchange
     rabbitTemplate.convertAndSend("DirectExchange", "DirectRouting", map);
+  }
+
+  @Test
+  public void testTopicSend() {
+    String createTime = LocalDateTime.now()
+        .format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+    Map<String, Object> map = new HashMap<>();
+    map.put("bookId", String.valueOf(UUID.randomUUID()));
+    map.put("oprType", 0);
+    map.put("sendTime", createTime);
+    String msg = UUID.randomUUID().toString() + "#" + 0 + "#" + createTime;
+    //将消息携带绑定键值：TestDirectRouting 发送到交换机TestDirectExchange
+    rabbitTemplate.convertAndSend("TopicExchange", "topic.book", msg);
   }
 }
