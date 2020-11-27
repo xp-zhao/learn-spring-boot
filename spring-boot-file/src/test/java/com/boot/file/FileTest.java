@@ -37,7 +37,7 @@ public class FileTest {
 
   @Test
   public void testUrl() throws MalformedURLException {
-    String path = "http://xp-oss-bucket.oss-cn-chengdu.aliyuncs.com/qrCode.jpg?Expires=1597637909&OSSAccessKeyId=LTAI4GFrTG7eAuWhUP4egoxx&Signature=jmB8ZV8sESq0YfeB0jEj6X2RGGQ%3D";
+    String path = "http://xp-oss-bucket.oss-cn-chengdu.aliyuncs.com/qrCode.jpg?Expires=1597637909&OSSAccessKeyId";
     URL url = new URL(path);
     System.out.println(url.getHost());
     System.out.println(url.getRef());
