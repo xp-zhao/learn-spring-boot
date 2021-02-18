@@ -19,7 +19,7 @@
     <java.version>1.8</java.version>
     <!--  自定义 es 版本依赖，保证和连接的 es 版本一致 -->
     <elasticsearch.version>7.6.1</elasticsearch.version>
-    <jackson.version>2.10.3</jackson.version>
+    <jackson.version>2.12.1</jackson.version>
   </properties>
 
   <dependencies>
