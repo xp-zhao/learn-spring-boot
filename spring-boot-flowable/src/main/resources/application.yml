@@ -2,15 +2,16 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:mysql://?serverTimezone=GMT%2B8&allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false&allowPublicKeyRetrieval=true&nullCatalogMeansCurrent=true
-
     driverClassName: com.mysql.cj.jdbc.Driver
     username: 
     password: 
-#flowable:
-#  idm:
-#    app:
-#      admin:
-#        password: test
-#        user-id: admin
-#        first-name: admin
-#        last-name: admin
+server:
+  port: 8081
+flowable:
+  idm:
+    app:
+      admin:
+        password: test
+        user-id: admin
+        first-name: admin
+        last-name: admin
