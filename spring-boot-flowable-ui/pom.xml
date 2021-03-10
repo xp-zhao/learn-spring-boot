@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <name>spring-boot-flowable-ui</name>
+  <description>Demo project for Spring Boot</description>
+  <groupId>com.boot</groupId>
+  <artifactId>spring-boot-flowable-ui</artifactId>
+
+  <packaging>pom</packaging>
+  <version>1.0-SNAPSHOT</version>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <java.version>1.8</java.version>
+    <flowable.version>6.6.0.12</flowable.version>
+    <spring.boot.version>2.3.6.RELEASE</spring.boot.version>
+  </properties>
+
+  <modules>
+    <module>flowable-ui-admin-frontend</module>
+    <module>flowable-ui-idm-frontend</module>
+    <module>flowable-ui-modeler-frontend</module>
+    <module>flowable-ui-task-frontend</module>
+    <module>flowable-ui-app</module>
+  </modules>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>mysql</groupId>
+        <artifactId>mysql-connector-java</artifactId>
+      </dependency>
+      <dependency>
+        <groupId>org.projectlombok</groupId>
+        <artifactId>lombok</artifactId>
+        <optional>true</optional>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>
