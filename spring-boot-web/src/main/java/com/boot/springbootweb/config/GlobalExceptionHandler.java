@@ -1,5 +1,6 @@
 package com.boot.springbootweb.config;
 
+import com.boot.springbootweb.exception.ApiException;
 import com.boot.springbootweb.exception.CustomException;
 import com.boot.springbootweb.exception.ErrorResponseEntity;
 import java.util.stream.Collectors;
@@ -22,6 +23,13 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  **/
 @RestControllerAdvice
 public class GlobalExceptionHandler {
+
+  @ExceptionHandler(ApiException.class)
+  public ErrorResponseEntity apiExceptionHandler(HttpServletRequest request, final Exception e,
+      HttpServletResponse response) {
+    ApiException exception = (ApiException) e;
+    return new ErrorResponseEntity(400, exception.getMessage());
+  }
 
   @ExceptionHandler(CustomException.class)
   public ErrorResponseEntity customExceptionHandler(HttpServletRequest request, final Exception e,

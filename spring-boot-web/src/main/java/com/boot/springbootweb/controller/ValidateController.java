@@ -1,12 +1,15 @@
 package com.boot.springbootweb.controller;
 
 import com.boot.springbootweb.annotation.DateTime;
+import com.boot.springbootweb.controller.request.CreateUserRequestData;
 import com.boot.springbootweb.entity.Book;
 import com.boot.springbootweb.entity.ValidateGroup;
 import javax.validation.constraints.NotBlank;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,12 +41,17 @@ public class ValidateController {
   }
 
   @RequestMapping("/insert")
-  public Book insert(@Validated Book book){
+  public Book insert(@Validated Book book) {
     return book;
   }
 
   @RequestMapping("/update")
-  public Book update(@Validated(value = {ValidateGroup.Update.class}) Book book){
+  public Book update(@Validated(value = {ValidateGroup.Update.class}) Book book) {
     return book;
+  }
+
+  @PostMapping("/addUser")
+  public String addUser(@RequestBody @Validated CreateUserRequestData param) {
+    return "success";
   }
 }
