@@ -13,10 +13,13 @@ import com.boot.power.mapper.UserGroupUserMapper;
 import com.boot.power.service.UserGroupService;
 import com.boot.power.service.UserGroupUserService;
 import com.boot.power.service.UserInfoService;
-import java.time.LocalDateTime;
-import java.util.List;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * <p>
@@ -90,8 +93,13 @@ public class UserGroupUserServiceImpl extends
   }
 
   @Override
-  public List<UserGroupUserDTO> queryAllUserByGroup(Integer groupId) {
+  public List<UserGroupUserDTO> queryAllUserByGroup(Integer groupId, Integer pageNum, Integer pageSize) {
+    if(ObjectUtil.isNull(pageNum) || ObjectUtil.isNull(pageSize)){
+      return userGroupUserMapper.queryAllUserByGroup(groupId);
+    }
+    PageHelper.startPage(pageNum, pageSize);
     List<UserGroupUserDTO> result = userGroupUserMapper.queryAllUserByGroup(groupId);
-    return result;
+    PageInfo<UserGroupUserDTO> page = new PageInfo<>(result);
+    return page.getList();
   }
 }

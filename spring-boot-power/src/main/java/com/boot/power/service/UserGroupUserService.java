@@ -39,7 +39,9 @@ public interface UserGroupUserService extends IService<UserGroupUserEntity> {
    * 查询指定用户组下的所有用户
    *
    * @param groupId 用户组 id
+   * @param pageNum 页码
+   * @param pageSize 每页的数量
    * @return 用户列表
    */
-  List<UserGroupUserDTO> queryAllUserByGroup(Integer groupId);
+  List<UserGroupUserDTO> queryAllUserByGroup(Integer groupId, Integer pageNum, Integer pageSize);
 }

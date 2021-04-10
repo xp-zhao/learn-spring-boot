@@ -13,7 +13,7 @@
 
   <select id="queryAllUserByGroup" resultMap="UserGroupUserMap" parameterType="integer">
     select t3.id, t3.user_group_id, t2.user_group_name, t3.user_id, t1.user_name
-    from tbl_user t1, tbl_user_group t2, tbl_user_gourp_user t3
-    where t2.id = t3.user_gourp_id and t1.id = t3.user_id and t1.id = #{groupId};
+    from tbl_user_info t1, tbl_user_group t2, tbl_user_group_user t3
+    where t2.id = t3.user_group_id and t1.id = t3.user_id and t2.id = #{groupId}
   </select>
 </mapper>

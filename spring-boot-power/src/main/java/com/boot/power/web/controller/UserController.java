@@ -11,20 +11,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-
-import java.util.List;
-import java.util.concurrent.TimeUnit;
-import javax.validation.constraints.NotNull;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.constraints.NotNull;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * <p>
@@ -64,13 +57,13 @@ public class UserController {
             @Validated(value = ValidateGroup.Add.class)
             @RequestBody UserInfoEntity user) {
         long startTimestamp = System.currentTimeMillis();
-        metrics.recordTimestamp("addUser", startTimestamp);
+//        metrics.recordTimestamp("addUser", startTimestamp);
         Integer code = userinfoService.addUser(user);
         if (code.equals(ReturnCode.REPEAT_USER.getCode())) {
             return new ResultBean(ReturnCode.REPEAT_USER.getCode(), ReturnCode.REPEAT_USER.getMsg());
         }
         long respTime = System.currentTimeMillis() - startTimestamp;
-        metrics.recordResponseTime("addUser", respTime);
+//        metrics.recordResponseTime("addUser", respTime);
         return new ResultBean(user);
     }
 
