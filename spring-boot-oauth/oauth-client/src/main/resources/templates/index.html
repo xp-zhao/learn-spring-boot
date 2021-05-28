@@ -10,9 +10,10 @@
     window.onload = function () {
       $.ajax({
         type: "POST",
-        url: path + ":7001/getUserInfo",
+        url: path + ":7001/client/getUserInfo",
         dataType: "text",
         success: function (msg) {
+          console.log(msg);
           $("#user_info").html(msg);
         }
       });
