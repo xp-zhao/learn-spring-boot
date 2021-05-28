@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>统一认证服务-登录页面</title>
+  <script src="http://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+  <script>
+    let path = "http://localhost";
+
+    function login() {
+      window.location.href = path + ":8899/login";
+    }
+  </script>
+</head>
+<body>
+<h1>统一登录页面</h1>
+<div>
+  账号<label><input type="text" name="username" value=""></label><br>
+  密码<label><input type="text" name="password" value=""></label><br>
+  <br>
+  <button value="授权登陆" onclick="login()">授权登陆</button>
+</div>
+</body>
+</html>
