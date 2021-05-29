@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>客户端系统登录页面</title>
+  <script src="http://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+  <script>
+    let path = "http://localhost";
+
+    function login() {
+      window.location.href = path + ":7001/client/login";
+    }
+  </script>
+</head>
+<body>
+<h1>客户端登录页面</h1>
+<div>
+  <button value="github 账号登录" onclick="login()">login with gitee</button>
+</div>
+</body>
+</html>

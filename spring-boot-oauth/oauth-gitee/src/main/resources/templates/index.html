@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>客户端登录成功页面</title>
+  <script src="http://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+  <script>
+    let path = "http://localhost";
+
+    window.onload = function () {
+      $.ajax({
+        type: "POST",
+        url: path + ":7001/client/getUserInfo",
+        dataType: "text",
+        success: function (msg) {
+          console.log(msg);
+          let user = $.parseJSON(msg);
+          $("#user_name").html(user.name);
+          $("#user_avatar_url").attr('src', user.avatarUrl);
+        }
+      });
+    }
+  </script>
+</head>
+<body>
+<h1>登录成功页面</h1>
+<div>
+  昵称: <div id="user_name"></div>
+  头像: <div><img id="user_avatar_url"></div>
+  <div>
+    登录成功！！
+  </div>
+</div>
+</body>
+</html>

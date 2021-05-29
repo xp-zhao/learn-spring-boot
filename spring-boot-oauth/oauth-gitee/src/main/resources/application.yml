@@ -1,0 +1,14 @@
+github:
+  clientId: xxx
+  clientSecrets: xxx
+server:
+  port: 7001
+spring:
+  application:
+    name: oauth-gitee
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+  web:
+    resources:
+      static-locations: classpath:/templates/  
